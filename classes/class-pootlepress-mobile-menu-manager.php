@@ -73,6 +73,9 @@ class Pootlepress_Mobile_Menu_manager {
     private $panelCloseIconBorderRadius;
     private $panelCloseIconRight;
 
+    private $optionSidebarEnable;
+    private $optionSliderEnable;
+
 	/**
 	 * Constructor.
 	 * @param string $file The base file of the plugin.
@@ -139,6 +142,9 @@ class Pootlepress_Mobile_Menu_manager {
 
         $this->panelCloseIconRight = get_option('pootlepress-mmm-panel-close-icon-right', 'false');
 
+        // mobile options
+        $this->optionSidebarEnable = get_option('pootlepress-mmm-option-side-bar-enable', 'true');
+        $this->optionSliderEnable = get_option('pootlepress-mmm-option-slider-enable', 'true');
 	} // End __construct()
 
     public function load_script() {
@@ -739,6 +745,19 @@ PANELTRANSFORM;
             $css .= "\t" . "display: none;" . "\n";
             $css .= "}\n";
 
+        }
+
+        // option enable/disable sidebar
+        if ($this->optionSidebarEnable === 'false') {
+            $css .= "#sidebar {\n";
+            $css .= "\t" . 'display: none;' . "\n";
+            $css .= "}\n";
+        }
+
+        if ($this->optionSliderEnable === 'false') {
+            $css .= "#loopedSlider, .pagination-wrap.slider-pagination {\n";
+            $css .= "\t" . 'display: none !important;' . "\n";
+            $css .= "}\n";
         }
 
         $css .= "}\n"; // close media query
