@@ -327,14 +327,14 @@ class Pootlepress_Mobile_Menu_manager {
         $o[] = array(
             'id' => 'pootlepress-mmm-panel-border-top',
             'name' => 'Border Top',
-            'desc' => 'Border Top',
+            'desc' => 'Menu item border top',
             'type' => 'border',
             'std' => array('width' => '0','style' => 'solid','color' => '#000000')
         );
         $o[] = array(
             'id' => 'pootlepress-mmm-panel-border-bottom',
             'name' => 'Border Bottom',
-            'desc' => 'Border Bottom',
+            'desc' => 'Menu item border bottom',
             'type' => 'border',
             'std' => array('width' => '0','style' => 'solid','color' => '#000000')
         );
@@ -646,10 +646,10 @@ PANELTRANSFORM;
             $css .= "}\n";
         }
 
-        // panel border top and bottom
+        // menu item border top and bottom
         $panelBorderTop = 'border-top:'. $this->panelBorderTop["width"].'px '.$this->panelBorderTop["style"].' '.$this->panelBorderTop["color"].' !important;';
         $panelBorderBottom = 'border-bottom:'. $this->panelBorderBottom["width"].'px '.$this->panelBorderBottom["style"].' '.$this->panelBorderBottom["color"].' !important;';
-        $css .= "#navigation {\n";
+        $css .= "#navigation ul li.menu-item a{\n";
         $css .= "\t" . $panelBorderTop . "\n";
         $css .= "\t" . $panelBorderBottom . "\n";
         $css .= "}\n";
