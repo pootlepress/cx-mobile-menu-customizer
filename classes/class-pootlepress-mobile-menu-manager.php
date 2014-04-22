@@ -38,6 +38,7 @@ class Pootlepress_Mobile_Menu_manager {
 
     private $navToggleIconPos;
     private $navToggleIconClass;
+    private $navToggleIconColor;
     private $navToggleIconSize;
     private $navWordText;
     private $navWordFont;
@@ -72,9 +73,12 @@ class Pootlepress_Mobile_Menu_manager {
     private $panelCloseIconBgColor;
     private $panelCloseIconBorderRadius;
     private $panelCloseIconRight;
+    private $panelSearchBoxFont;
+    private $panelSearchIconColor;
 
     private $optionSidebarEnable;
     private $optionSliderEnable;
+    private $optionSearchBoxRemove;
 
 	/**
 	 * Constructor.
@@ -99,6 +103,7 @@ class Pootlepress_Mobile_Menu_manager {
 
         $this->navToggleIconPos = get_option('pootlepress-mmm-nav-toggle-icon-pos', 'Left');
         $this->navToggleIconClass = get_option('pootlepress-mmm-nav-toggle-icon-class', 'icon-align-justify');
+        $this->navToggleIconColor = get_option('pootlepress-mmm-nav-toggle-icon-color', '#ffffff');
         $this->navToggleIconSize = get_option('pootlepress-mmm-nav-toggle-icon-size', '1em');
         $this->navWordText = get_option('pootlepress-mmm-nav-word-text', 'Navigation');
         $this->navWordFont = get_option('pootlepress-mmm-nav-word-font',
@@ -141,10 +146,15 @@ class Pootlepress_Mobile_Menu_manager {
         $this->panelCloseIconBorderRadius = get_option('pootlepress-mmm-panel-close-icon-border-radius', '3px');
 
         $this->panelCloseIconRight = get_option('pootlepress-mmm-panel-close-icon-right', 'false');
+        $this->panelSearchBoxFont = get_option('pootlepress-mmm-panel-search-box-font',
+            array('size' => '1','em' => 'px', 'face' => '"Helvetica Neue", Helvetica, sans-serif','style' => 'normal','color' => '#777777')
+        );
+        $this->panelSearchIconColor = get_option('pootlepress-mmm-panel-search-icon-color', '#000000');
 
         // mobile options
         $this->optionSidebarEnable = get_option('pootlepress-mmm-option-side-bar-enable', 'true');
         $this->optionSliderEnable = get_option('pootlepress-mmm-option-slider-enable', 'true');
+        $this->optionSearchBoxRemove = get_option('pootlepress-mmm-option-search-box-remove', 'false');
 	} // End __construct()
 
     public function load_script() {
@@ -189,6 +199,13 @@ class Pootlepress_Mobile_Menu_manager {
             'desc' => __('Toggle icon FontAwesome class.', 'pootlepress-mmm'),
             'type' => 'text',
             'std' => 'icon-align-justify'
+        );
+        $o[] = array(
+            'id' => 'pootlepress-mmm-nav-toggle-icon-color',
+            'name' => __('Toggle icon color', 'pootlepress-mmm'),
+            'desc' => __('Toggle icon color', 'pootlepress-mmm'),
+            'type' => 'color',
+            'std' => '#ffffff'
         );
         $o[] = array(
             'id' => 'pootlepress-mmm-nav-toggle-icon-size',
@@ -338,13 +355,6 @@ class Pootlepress_Mobile_Menu_manager {
             'type' => 'border',
             'std' => array('width' => '0','style' => 'solid','color' => '#000000')
         );
-//        $o[] = array(
-//            'id' => 'pootlepress-mmm-panel-search-box-enable',
-//            'name' => 'Enable Search Box',
-//            'desc' => 'Enable Search Box',
-//            'type' => 'checkbox',
-//            'std' => 'false'
-//        );
         $o[] = array(
             'id' => 'pootlepress-mmm-panel-home-icon-remove',
             'name' => 'Remove home icon',
@@ -437,6 +447,20 @@ class Pootlepress_Mobile_Menu_manager {
             'type' => 'checkbox',
             'std' => 'false'
         );
+        $o[] = array(
+            'id' => 'pootlepress-mmm-panel-search-box-font',
+            'name' => 'Search box font',
+            'desc' => 'Search box font',
+            'type' => 'typography',
+            'std' => array('size' => '1','unit' => 'em', 'face' => '"Helvetica Neue", Helvetica, sans-serif','style' => 'normal','color' => '#777777')
+        );
+        $o[] = array(
+            'id' => 'pootlepress-mmm-panel-search-icon-color',
+            'name' => 'Search icon color',
+            'desc' => 'Search icon color',
+            'type' => 'color',
+            'std' => '#000000'
+        );
 
         // Mobile Options
         $o[] = array(
@@ -457,10 +481,15 @@ class Pootlepress_Mobile_Menu_manager {
             'type' => 'checkbox',
             'std' => 'true'
         );
+        $o[] = array(
+            'id' => 'pootlepress-mmm-option-search-box-remove',
+            'name' => 'Remove Search Box',
+            'desc' => 'Remove Search Box',
+            'type' => 'checkbox',
+            'std' => 'false'
+        );
         return $o;
 	} // End add_theme_options()
-
-
 
     public function option_css() {
 
@@ -499,6 +528,11 @@ OPTIONCSS;
             $css .= ".nav-toggle i { float: right; padding: 0 0.5em 0 1em; margin-right: 0.5em; border-left: 1px solid rgba(255, 255, 255, 0.1); }\n";
         }
 
+        // icon color
+        $css .= ".nav-toggle i {\n";
+        $css .= "\t" . 'color: ' . $this->navToggleIconColor . ";\n";
+        $css .= "}\n";
+
         // font size
         $css .= ".nav-toggle i {\n";
         $css .= "\t" . 'font-size: ' . $this->navToggleIconSize . ";\n";
@@ -514,24 +548,25 @@ OPTIONCSS;
         $css .= "}\n";
 
         // bg color
-        $rHex = substr($this->navBgColor, 1, 2);
-        $gHex = substr($this->navBgColor, 3, 2);
-        $bHex = substr($this->navBgColor, 5, 2);
+        if ($this->navBgColor != '#000000') {
 
-        $r = hexdec($rHex);
-        $g = hexdec($gHex);
-        $b = hexdec($bHex);
+            $rHex = substr($this->navBgColor, 1, 2);
+            $gHex = substr($this->navBgColor, 3, 2);
+            $bHex = substr($this->navBgColor, 5, 2);
 
-        $css .= <<<NAVBGCOLOR
+            $r = hexdec($rHex);
+            $g = hexdec($gHex);
+            $b = hexdec($bHex);
+
+            $css .= <<<NAVBGCOLOR
 .nav-toggle {
     background: rgba($r, $g, $b, 0.65);
-    background: -webkit-gradient(linear, left top, left bottom, from(rgba($r, $g, $b, 0.65)), to(rgba($r, $g, $b, 0.8)));
-    background: -webkit-linear-gradient(rgba($r, $g, $b, 0.65), rgba($r, $g, $b, 0.8));
-    background: -moz-linear-gradient(center top, rgba($r, $g, $b, 0.65) 0%, rgba($r, $g, $b, 0.8) 100%);
-    background: -moz-gradient(center top, rgba($r, $g, $b, 0.65) 0%, rgba($r, $g, $b, 0.8) 100%);
 }
-
+.nav-toggle a {
+    text-shadow: none;
+}
 NAVBGCOLOR;
+        }
 
 
         // nav top and bottom margin
@@ -744,8 +779,21 @@ PANELTRANSFORM;
             $css .= "#navigation .nav-close span {\n";
             $css .= "\t" . "display: none;" . "\n";
             $css .= "}\n";
-
         }
+
+        // panel search box font
+        $css .= "#navigation .nav-search .search_main input[name=s] {\n";
+        $css .= "\t" . $this->generate_font_css($this->panelSearchBoxFont) . "\n";
+        $css .= "}\n";
+
+        // panel search icon color
+        $hexColor = $this->convert_color_hex_to_dec($this->panelSearchIconColor);
+        $r = $hexColor['r'];
+        $g = $hexColor['g'];
+        $b = $hexColor['b'];
+        $css .= "#navigation .nav-search .search_main button[name=submit]:before {\n";
+        $css .= "\t" . "color: rgba($r, $g, $b, 0.5)" . ";\n";
+        $css .= "}\n";
 
         // option enable/disable sidebar
         if ($this->optionSidebarEnable === 'false') {
@@ -760,9 +808,27 @@ PANELTRANSFORM;
             $css .= "}\n";
         }
 
+        if ($this->optionSearchBoxRemove === 'true') {
+            $css .= "#navigation .nav-search {\n";
+            $css .= "\t" . 'display: none;' . "\n";
+            $css .= "}\n";
+        }
+
         $css .= "}\n"; // close media query
 
         echo "<style>".$css."</style>";
+    }
+
+    private function convert_color_hex_to_dec($color) {
+        $rHex = substr($color, 1, 2);
+        $gHex = substr($color, 3, 2);
+        $bHex = substr($color, 5, 2);
+
+        $r = hexdec($rHex);
+        $g = hexdec($gHex);
+        $b = hexdec($bHex);
+
+        return array('r' => $r, 'g' => $g, 'b' => $b);
     }
 
     private function generate_font_css( $option, $em = '1' ) {
