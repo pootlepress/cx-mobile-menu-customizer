@@ -74,6 +74,7 @@ class Pootlepress_Mobile_Menu_manager {
     private $panelCloseIconBorderRadius;
     private $panelCloseIconRight;
     private $panelSearchBoxFont;
+    private $panelSearchBoxBgColor;
     private $panelSearchIconColor;
 
     private $optionSidebarEnable;
@@ -149,6 +150,7 @@ class Pootlepress_Mobile_Menu_manager {
         $this->panelSearchBoxFont = get_option('pootlepress-mmm-panel-search-box-font',
             array('size' => '1','em' => 'px', 'face' => '"Helvetica Neue", Helvetica, sans-serif','style' => 'normal','color' => '#777777')
         );
+        $this->panelSearchBoxBgColor = get_option('pootlepress-mmm-panel-search-box-bg-color', '#e6e6e6');
         $this->panelSearchIconColor = get_option('pootlepress-mmm-panel-search-icon-color', '#000000');
 
         // mobile options
@@ -453,6 +455,13 @@ class Pootlepress_Mobile_Menu_manager {
             'desc' => 'Search box font',
             'type' => 'typography',
             'std' => array('size' => '1','unit' => 'em', 'face' => '"Helvetica Neue", Helvetica, sans-serif','style' => 'normal','color' => '#777777')
+        );
+        $o[] = array(
+            'id' => 'pootlepress-mmm-panel-search-box-bg-color',
+            'name' => 'Search box color',
+            'desc' => 'Search box color',
+            'type' => 'color',
+            'std' => '#e6e6e6'
         );
         $o[] = array(
             'id' => 'pootlepress-mmm-panel-search-icon-color',
@@ -784,6 +793,11 @@ PANELTRANSFORM;
         // panel search box font
         $css .= "#navigation .nav-search .search_main input[name=s] {\n";
         $css .= "\t" . $this->generate_font_css($this->panelSearchBoxFont) . "\n";
+        $css .= "}\n";
+
+        // panel search box bg color
+        $css .= "#navigation .nav-search {\n";
+        $css .= "\t" . 'background-color: ' . $this->panelSearchBoxBgColor . " !important;\n";
         $css .= "}\n";
 
         // panel search icon color
