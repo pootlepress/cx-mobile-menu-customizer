@@ -3,7 +3,7 @@ Canvas Extensions - Mobile Menu Manager
 
 
 
-Watch the demo here: http://www.pootlepress.com/2014/02/create-sticky-header-woothemes-canvas
+Watch the demo here: http://www.pootlepress.com/shop
 
 Instructions
 
