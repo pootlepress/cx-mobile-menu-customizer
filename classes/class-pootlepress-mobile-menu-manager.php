@@ -569,7 +569,7 @@ OPTIONCSS;
 
             $css .= <<<NAVBGCOLOR
 .nav-toggle {
-    background: rgba($r, $g, $b, 0.65);
+    background: rgb($r, $g, $b);
 }
 .nav-toggle a {
     text-shadow: none;
