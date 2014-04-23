@@ -526,7 +526,6 @@ class Pootlepress_Mobile_Menu_manager {
     font-family: "FontAwesome";
     font-weight: normal;
     color: #fff;
-    text-shadow: 0 1px 0 #000;
     display: inline-block;
     line-height: inherit;
 }
