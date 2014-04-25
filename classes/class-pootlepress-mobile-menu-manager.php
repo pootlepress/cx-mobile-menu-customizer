@@ -672,7 +672,7 @@ PANELTRANSFORM;
 
         // panel selected menu item bg color
         if ($this->panelSelectedMenuItemBgColor !== '') {
-            $css .= "#navigation ul li.menu-item.current-menu-item a {\n";
+            $css .= "#navigation ul li.menu-item.current-menu-item a, #navigation ul li.menu-item.current-menu-ancestor a {\n";
             $css .= "\t" . 'background-color: ' . $this->panelSelectedMenuItemBgColor . ";\n";
             $css .= "}\n";
         }
