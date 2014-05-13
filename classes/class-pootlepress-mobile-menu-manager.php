@@ -134,13 +134,13 @@ class Pootlepress_Mobile_Menu_manager {
         $this->panelHomeIconRemove = get_option('pootlepress-mmm-panel-home-icon-remove', 'false');
         $this->panelShopIconRemove = get_option('pootlepress-mmm-panel-shop-icon-remove', 'false');
 
-        $this->panelHomeIconClass = get_option('pootlepress-mmm-panel-home-icon-class', 'icon-home');
+        $this->panelHomeIconClass = get_option('pootlepress-mmm-panel-home-icon-class', 'fa-home');
         $this->panelHomeIconSize = get_option('pootlepress-mmm-panel-home-icon-size', '1em');
         $this->panelHomeIconColor = get_option('pootlepress-mmm-panel-home-icon-color', '#ffffff');
         $this->panelHomeIconBgColor = get_option('pootlepress-mmm-panel-home-icon-bg-color', '#999999');
         $this->panelHomeIconBorderRadius = get_option('pootlepress-mmm-panel-home-icon-border-radius', '3px');
 
-        $this->panelCloseIconClass = get_option('pootlepress-mmm-panel-close-icon-class', 'icon-remove');
+        $this->panelCloseIconClass = get_option('pootlepress-mmm-panel-close-icon-class', 'fa-times');
         $this->panelCloseIconSize = get_option('pootlepress-mmm-panel-close-icon-size', '1em');
         $this->panelCloseIconColor = get_option('pootlepress-mmm-panel-close-icon-color', '#ffffff');
         $this->panelCloseIconBgColor = get_option('pootlepress-mmm-panel-close-icon-bg-color', '#999999');
@@ -200,7 +200,7 @@ class Pootlepress_Mobile_Menu_manager {
             'name' => __('Toggle icon FontAwesome class', 'pootlepress-mmm'),
             'desc' => __('Toggle icon FontAwesome class.', 'pootlepress-mmm'),
             'type' => 'text',
-            'std' => 'icon-align-justify'
+            'std' => 'fa-align-justify'
         );
         $o[] = array(
             'id' => 'pootlepress-mmm-nav-toggle-icon-color',
@@ -374,9 +374,9 @@ class Pootlepress_Mobile_Menu_manager {
         $o[] = array(
             'id' => 'pootlepress-mmm-panel-home-icon-class',
             'name' => 'Home icon FontAwesome class',
-            'desc' => 'Home icon FontAwesome class (e.g. icon-globe)',
+            'desc' => 'Home icon FontAwesome class (e.g. fa-globe)',
             'type' => 'text',
-            'std' => 'icon-home'
+            'std' => 'fa-home'
         );
         $o[] = array(
             'id' => 'pootlepress-mmm-panel-home-icon-size',
@@ -410,9 +410,9 @@ class Pootlepress_Mobile_Menu_manager {
         $o[] = array(
             'id' => 'pootlepress-mmm-panel-close-icon-class',
             'name' => 'Close icon FontAwesome class',
-            'desc' => 'Close icon FontAwesome class (e.g. icon-globe)',
+            'desc' => 'Close icon FontAwesome class (e.g. fa-globe)',
             'type' => 'text',
-            'std' => 'icon-remove'
+            'std' => 'fa-times'
         );
         $o[] = array(
             'id' => 'pootlepress-mmm-panel-close-icon-size',
@@ -734,6 +734,10 @@ PANELTRANSFORM;
         $css .= "\t" . $homeCss . "\n";
         $css .= "}\n";
 
+        $css .= "#navigation .nav-home:hover {\n";
+        $css .= "\t" . 'text-decoration: none;' . "\n";
+        $css .= "}\n";
+
         $css .= "#navigation .nav-home span{\n";
         $css .= "\t" . 'display: none;' . "\n";
         $css .= "}\n";
@@ -764,6 +768,10 @@ PANELTRANSFORM;
 
         $css .= "#navigation .nav-close{\n";
         $css .= "\t" . $closeCss . "\n";
+        $css .= "}\n";
+
+        $css .= "#navigation .nav-close:hover {\n";
+        $css .= "\t" . 'text-decoration: none;' . "\n";
         $css .= "}\n";
 
         $css .= "#navigation .nav-close span{\n";

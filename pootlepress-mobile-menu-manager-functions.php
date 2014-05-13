@@ -20,11 +20,11 @@ if (!function_exists('check_main_heading')) {
 if ( ! function_exists( 'woo_nav_toggle' ) ) {
     function woo_nav_toggle () {
 
-        $navIconClass = get_option('pootlepress-mmm-nav-toggle-icon', 'icon-align-justify');
+        $navIconClass = get_option('pootlepress-mmm-nav-toggle-icon', 'fa-align-justify');
         $navText = get_option('pootlepress-mmm-nav-word-text', 'Navigation');
 
         ?>
-        <h3 class="nav-toggle icon"><i class="<?php esc_attr_e($navIconClass) ?>"></i><a href="#navigation"><?php esc_html_e($navText) ?></a></h3>
+        <h3 class="nav-toggle icon"><i class="fa <?php esc_attr_e($navIconClass) ?>"></i><a href="#navigation"><?php esc_html_e($navText) ?></a></h3>
     <?php
     } // End woo_nav_toggle()
 }
@@ -32,10 +32,10 @@ if ( ! function_exists( 'woo_nav_toggle' ) ) {
 if ( ! function_exists( 'woo_nav_primary' ) ) {
     function woo_nav_primary()
     {
-        $homeIconClass = get_option('pootlepress-mmm-panel-home-icon-class', 'icon-home');
+        $homeIconClass = get_option('pootlepress-mmm-panel-home-icon-class', 'fa-home');
 
         ?>
-        <a href="<?php echo home_url(); ?>" class="nav-home"><i class="<?php esc_attr_e($homeIconClass) ?>"></i><span><?php _e('Home', 'woothemes'); ?></span></a>
+        <a href="<?php echo home_url(); ?>" class="nav-home"><i class="fa <?php esc_attr_e($homeIconClass) ?>"></i><span><?php _e('Home', 'woothemes'); ?></span></a>
 
         <?php
         if (function_exists('has_nav_menu') && has_nav_menu('primary-menu')) {
@@ -73,7 +73,7 @@ if ( ! function_exists( 'woo_nav' ) ) {
         global $woo_options;
         woo_nav_before();
 
-        $closeIconClass = get_option('pootlepress-mmm-panel-close-icon-class', 'icon-remove');
+        $closeIconClass = get_option('pootlepress-mmm-panel-close-icon-class', 'fa-times');
 
         ?>
         <nav id="navigation" class="col-full" role="navigation">
@@ -84,7 +84,7 @@ if ( ! function_exists( 'woo_nav' ) ) {
 
             </section><!-- /.menus -->
 
-            <a href="#top" class="nav-close"><i class="<?php esc_attr_e($closeIconClass) ?>"></i><span><?php _e('Return to Content', 'woothemes' ); ?></span></a>
+            <a href="#top" class="nav-close"><i class="fa <?php esc_attr_e($closeIconClass) ?>"></i><span><?php _e('Return to Content', 'woothemes' ); ?></span></a>
 
         </nav>
         <?php
