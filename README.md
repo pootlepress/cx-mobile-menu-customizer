@@ -10,6 +10,8 @@ Instructions
 
 Versions
 
+v1.0.4 - Fix "slide from right" option 
+
 v1.0.3 - Fix for Font Awesome change in Canvas 5.7
 
 v1.0.2 - Fixed error message (issue #12)
