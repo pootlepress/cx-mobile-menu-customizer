@@ -617,11 +617,12 @@ NAVBGCOLOR;
     }
 
     .csstransforms3d.csstransitions .show-nav #inner-wrapper {
-        -webkit-transform: translate3d(-80%, 0, 0);
-        -moz-transform: translate3d(-80%, 0, 0);
-        -ms-transform: translate3d(-80%, 0, 0);
-        -o-transform: translate3d(-80%, 0, 0);
-        transform: translate3d(-80%, 0, 0);
+//        -webkit-transform: translate3d(-80%, 0, 0);
+//        -moz-transform: translate3d(-80%, 0, 0);
+//        -ms-transform: translate3d(-80%, 0, 0);
+//        -o-transform: translate3d(-80%, 0, 0);
+//        transform: translate3d(-80%, 0, 0);
+        left: -80%;
     }
 
     .csstransforms3d.csstransitions #navigation {
