@@ -10,6 +10,12 @@ Instructions
 
 Versions
 
+v1.0.4 - Fix "slide from right" option
+
+v1.0.3 - Fix for Font Awesome change in Canvas 5.7
+
+v1.0.2 - Fixed error message (issue #12)
+
 v1.0.1 - Fixed issue #9 where Menu selected color stays grey when child/sub menu items are used
 
 v1.0 - initial release
