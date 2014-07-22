@@ -10,6 +10,8 @@ Instructions
 
 Versions
 
+v1.1 - ability to update within WordPress
+
 v1.0.4 - Fix "slide from right" option
 
 v1.0.3 - Fix for Font Awesome change in Canvas 5.7
