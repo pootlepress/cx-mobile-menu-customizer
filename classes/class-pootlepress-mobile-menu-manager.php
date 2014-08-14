@@ -36,6 +36,9 @@ class Pootlepress_Mobile_Menu_manager {
 	public $version;
 	private $file;
 
+    private $navToggleLogo;
+    private $navToggleLogoAlign;
+
     private $navToggleIconPos;
     private $navToggleIconClass;
     private $navToggleIconColor;
@@ -49,6 +52,7 @@ class Pootlepress_Mobile_Menu_manager {
     private $navPaddingTop;
     private $navPaddingBottom;
 
+    private $panelLogo;
     private $panelAppearPos;
     private $panelBgColor;
     private $panelMenuItemBgColor;
@@ -62,24 +66,27 @@ class Pootlepress_Mobile_Menu_manager {
     private $panelSearchBoxEnable;
     private $panelHomeIconRemove;
     private $panelShopIconRemove;
+    private $panelSubscribeIconRemove;
     private $panelHomeIconClass;
-    private $panelHomeIconSize;
-    private $panelHomeIconColor;
-    private $panelHomeIconBgColor;
-    private $panelHomeIconBorderRadius;
     private $panelCloseIconClass;
-    private $panelCloseIconSize;
-    private $panelCloseIconColor;
-    private $panelCloseIconBgColor;
-    private $panelCloseIconBorderRadius;
     private $panelCloseIconRight;
+    private $panelShopIconClass;
+    private $panelSubscribeIconClass;
+    private $panelIconSize;
+    private $panelIconColor;
+    private $panelIconBgColor;
+    private $panelIconBorderRadius;
     private $panelSearchBoxFont;
     private $panelSearchBoxBgColor;
     private $panelSearchIconColor;
+    private $panelPhoneNumber;
+    private $panelPhoneNumberFont;
+    private $panelPhoneNumberPos;
 
     private $optionSidebarEnable;
     private $optionSliderEnable;
     private $optionSearchBoxRemove;
+    private $optionHideTopNav;
 
 	/**
 	 * Constructor.
@@ -101,6 +108,23 @@ class Pootlepress_Mobile_Menu_manager {
 		add_filter( 'option_woo_template', array( &$this, 'add_theme_options' ) );
 
         add_action('wp_head', array(&$this, 'option_css'));
+        add_action('wp_enqueue_scripts', array($this, 'front_end_scripts'), 1000);
+
+        // woo_nav_primary is hooked to it at 10, so hook this at 8
+        add_action('woo_nav_inside', array($this, 'panel_logo'), 8);
+
+        // hook phone number at 9 or 11
+        $this->panelPhoneNumberPos = get_option('pootlepress-mmm-panel-phone-number-pos', 'Above menu');
+        if ($this->panelPhoneNumberPos == 'Above menu') {
+            add_action('woo_nav_inside', array($this, 'panel_phone_number'), 9);
+        } else {
+            add_action('woo_nav_inside', array($this, 'panel_phone_number'), 11);
+        }
+
+        add_action('after_setup_theme', array($this, 'after_setup_theme'));
+
+        $this->navToggleLogo = get_option('pootlepress-mmm-nav-toggle-logo', '');
+        $this->navToggleLogoAlign = get_option('pootlepress-mmm-nav-toggle-logo-align', 'Left');
 
         $this->navToggleIconPos = get_option('pootlepress-mmm-nav-toggle-icon-pos', 'Left');
         $this->navToggleIconClass = get_option('pootlepress-mmm-nav-toggle-icon-class', 'icon-align-justify');
@@ -116,6 +140,7 @@ class Pootlepress_Mobile_Menu_manager {
         $this->navPaddingTop = get_option('pootlepress-mmm-nav-padding-top', '0');
         $this->navPaddingBottom = get_option('pootlepress-mmm-nav-padding-bottom', '0');
 
+        $this->panelLogo = get_option('pootlepress-mmm-panel-logo', '');
         $this->panelAppearPos = get_option('pootlepress-mmm-panel-appear-pos', 'Left');
         $this->panelBgColor = get_option('pootlepress-mmm-panel-bg-color', '');
         $this->panelMenuItemBgColor = get_option('pootlepress-mmm-panel-menu-item-bg-color', '');
@@ -133,18 +158,17 @@ class Pootlepress_Mobile_Menu_manager {
         $this->panelSearchBoxEnable = get_option('pootlepress-mmm-panel-search-box-enable', 'false');
         $this->panelHomeIconRemove = get_option('pootlepress-mmm-panel-home-icon-remove', 'false');
         $this->panelShopIconRemove = get_option('pootlepress-mmm-panel-shop-icon-remove', 'false');
+        $this->panelSubscribeIconRemove = get_option('pootlepress-mmm-panel-subscribe-icon-remove', 'false');
 
         $this->panelHomeIconClass = get_option('pootlepress-mmm-panel-home-icon-class', 'fa-home');
-        $this->panelHomeIconSize = get_option('pootlepress-mmm-panel-home-icon-size', '1em');
-        $this->panelHomeIconColor = get_option('pootlepress-mmm-panel-home-icon-color', '#ffffff');
-        $this->panelHomeIconBgColor = get_option('pootlepress-mmm-panel-home-icon-bg-color', '#999999');
-        $this->panelHomeIconBorderRadius = get_option('pootlepress-mmm-panel-home-icon-border-radius', '3px');
-
         $this->panelCloseIconClass = get_option('pootlepress-mmm-panel-close-icon-class', 'fa-times');
-        $this->panelCloseIconSize = get_option('pootlepress-mmm-panel-close-icon-size', '1em');
-        $this->panelCloseIconColor = get_option('pootlepress-mmm-panel-close-icon-color', '#ffffff');
-        $this->panelCloseIconBgColor = get_option('pootlepress-mmm-panel-close-icon-bg-color', '#999999');
-        $this->panelCloseIconBorderRadius = get_option('pootlepress-mmm-panel-close-icon-border-radius', '3px');
+        $this->panelShopIconClass = get_option('pootlepress-mmm-panel-shop-icon-class', 'fa-shopping-cart');
+        $this->panelSubscribeIconClass = get_option('pootlepress-mmm-panel-subscribe-icon-class', 'fa-rss');
+
+        $this->panelIconSize = get_option('pootlepress-mmm-panel-icon-size', '1em');
+        $this->panelIconColor = get_option('pootlepress-mmm-panel-icon-color', '#ffffff');
+        $this->panelIconBgColor = get_option('pootlepress-mmm-panel-icon-bg-color', '#999999');
+        $this->panelIconBorderRadius = get_option('pootlepress-mmm-panel-icon-border-radius', '3px');
 
         $this->panelCloseIconRight = get_option('pootlepress-mmm-panel-close-icon-right', 'false');
         $this->panelSearchBoxFont = get_option('pootlepress-mmm-panel-search-box-font',
@@ -153,23 +177,57 @@ class Pootlepress_Mobile_Menu_manager {
         $this->panelSearchBoxBgColor = get_option('pootlepress-mmm-panel-search-box-bg-color', '#e6e6e6');
         $this->panelSearchIconColor = get_option('pootlepress-mmm-panel-search-icon-color', '#000000');
 
+        $this->panelPhoneNumber = get_option('pootlepress-mmm-panel-phone-number', '');
+        $this->panelPhoneNumberFont = get_option('pootlepress-mmm-panel-phone-number-font', array('size' => '1','unit' => 'em', 'face' => '"Helvetica Neue", Helvetica, sans-serif','style' => 'normal','color' => '#777777'));
+
         // mobile options
         $this->optionSidebarEnable = get_option('pootlepress-mmm-option-side-bar-enable', 'true');
         $this->optionSliderEnable = get_option('pootlepress-mmm-option-slider-enable', 'true');
         $this->optionSearchBoxRemove = get_option('pootlepress-mmm-option-search-box-remove', 'false');
+        $this->optionHideTopNav = get_option('pootlepress-mmm-option-hide-top-nav', 'false');
+
 	} // End __construct()
 
-    public function load_script() {
+    public function after_setup_theme() {
+        register_nav_menus(
+            array(
+                'mobile-menu' 	=> __( 'Mobile Menu', 'pootlepress-mmm' )
+            )
+        );
 
+        add_action( 'woo_nav_inside', array($this, 'woo_nav_mobile'), 10);
     }
 
-    public function load_admin_script() {
-        if (isset($_REQUEST['page']) && $_REQUEST['page'] == 'woothemes') {
-            $pluginFile = dirname(dirname(__FILE__)) . '/pootlepress-full-width-header-widget.php';
-            wp_enqueue_script('pootlepress-fwhw-admin', plugin_dir_url($pluginFile) . 'scripts/fwhw-admin.js', array('jquery'));
+    public function front_end_scripts() {
+        // hack to set the html for shopping cart
+        // because somehow the theme set its own html in javascript
+        wp_enqueue_script('pootlepress-mmm-front-end', plugin_dir_url($this->file) . 'scripts/pp-mmm.js', array('jquery'));
+
+        ob_start();
+        woo_add_nav_cart_link();
+        $s = ob_get_clean();
+
+        $shopIconClass = get_option('pootlepress-mmm-panel-shop-icon-class', 'fa-shopping-cart');
+
+        wp_localize_script('pootlepress-mmm-front-end', 'MMM', array('cartHtml' => $s, 'shopIconClass' => $shopIconClass));
+    }
+
+    public function woo_nav_mobile()
+    {
+        $homeIconClass = get_option('pootlepress-mmm-panel-home-icon-class', 'fa-home');
+        if (function_exists('has_nav_menu') && has_nav_menu('mobile-menu')) {
+        ?>
+            <div class="mobile-nav-container">
+            <a href="<?php echo home_url(); ?>" class="nav-home"><i class="fa <?php esc_attr_e($homeIconClass) ?>"></i><span><?php _e('Home', 'woothemes'); ?></span></a>
+
+            <?php
+
+            echo '<h3>' . woo_get_menu_name('mobile-menu') . '</h3>';
+            wp_nav_menu(array('sort_column' => 'menu_order', 'container' => 'ul', 'menu_id' => 'mobile-nav', 'menu_class' => 'nav fl', 'theme_location' => 'mobile-menu'));
+
+            ?></div><?php
         }
-
-    }
+    } // End woo_nav_primary()
 
 	/**
 	 * Add theme options to the WooFramework.
@@ -186,6 +244,20 @@ class Pootlepress_Mobile_Menu_manager {
 				'name' => __( 'Mobile NavBar', 'pootlepress-mmm' ),
 				'type' => 'subheading'
 		);
+        $o[] = array(
+            "id" => "pootlepress-mmm-nav-toggle-logo",
+            "name" => __( 'Nav bar Logo', 'pootlepress-mmm' ),
+            "desc" => __( 'Nav bar Logo', 'pootlepress-mmm' ),
+            "type" => "upload",
+            'std' => ''
+        );
+        $o[] = array(
+            'id' => 'pootlepress-mmm-nav-toggle-logo-align',
+            'name' => 'Align nav bar logo',
+            'desc' => 'Align nav bar logo',
+            'type' => 'select',
+            'options' => array('Left', 'Center', 'Right')
+        );
         $o[] = array(
             "id" => "pootlepress-mmm-nav-toggle-icon-pos",
             "name" => __( 'Toggle icon position', 'pootlepress-mmm' ),
@@ -288,6 +360,20 @@ class Pootlepress_Mobile_Menu_manager {
             'type' => 'subheading'
         );
         $o[] = array(
+            'name' => 'Custom Menu',
+            'desc' => '',
+            'id' => 'pootlepress-mmm-panel-notice',
+            'std' => 'To use a custom menu for your mobile menu, please select this option in Appearance > Menus',
+            'type' => 'info'
+        );
+        $o[] = array(
+            "id" => "pootlepress-mmm-panel-logo",
+            "name" => __( 'Panel Logo', 'pootlepress-mmm' ),
+            "desc" => __( 'Panel Logo', 'pootlepress-mmm' ),
+            "type" => "upload",
+            'std' => ''
+        );
+        $o[] = array(
             'id' => 'pootlepress-mmm-panel-appear-pos',
             'name' => 'Appear from left or right',
             'desc' => 'Appear from left or right',
@@ -372,39 +458,18 @@ class Pootlepress_Mobile_Menu_manager {
             'std' => 'false'
         );
         $o[] = array(
+            'id' => 'pootlepress-mmm-panel-subscribe-icon-remove',
+            'name' => 'Remove subscribe icon',
+            'desc' => 'Remove subscribe icon',
+            'type' => 'checkbox',
+            'std' => 'false'
+        );
+        $o[] = array(
             'id' => 'pootlepress-mmm-panel-home-icon-class',
             'name' => 'Home icon FontAwesome class',
             'desc' => 'Home icon FontAwesome class (e.g. fa-globe)',
             'type' => 'text',
             'std' => 'fa-home'
-        );
-        $o[] = array(
-            'id' => 'pootlepress-mmm-panel-home-icon-size',
-            'name' => 'Home icon size',
-            'desc' => 'Home icon size (e.g. 1em, 14px)',
-            'type' => 'text',
-            'std' => '1em'
-        );
-        $o[] = array(
-            'id' => 'pootlepress-mmm-panel-home-icon-color',
-            'name' => 'Home icon color',
-            'desc' => 'Home icon color',
-            'type' => 'color',
-            'std' => '#ffffff'
-        );
-        $o[] = array(
-            'id' => 'pootlepress-mmm-panel-home-icon-bg-color',
-            'name' => 'Home icon background color',
-            'desc' => 'Home icon background color',
-            'type' => 'color',
-            'std' => '#999999'
-        );
-        $o[] = array(
-            'id' => 'pootlepress-mmm-panel-home-icon-border-radius',
-            'name' => 'Home icon rounded corner radius',
-            'desc' => 'Home icon rounded corner radius (e.g. 3px)',
-            'type' => 'text',
-            'std' => '3px'
         );
 
         $o[] = array(
@@ -414,34 +479,7 @@ class Pootlepress_Mobile_Menu_manager {
             'type' => 'text',
             'std' => 'fa-times'
         );
-        $o[] = array(
-            'id' => 'pootlepress-mmm-panel-close-icon-size',
-            'name' => 'Close icon size',
-            'desc' => 'Close icon size (e.g. 1em, 14px)',
-            'type' => 'text',
-            'std' => '1em'
-        );
-        $o[] = array(
-            'id' => 'pootlepress-mmm-panel-close-icon-color',
-            'name' => 'Close icon color',
-            'desc' => 'Close icon color',
-            'type' => 'color',
-            'std' => '#ffffff'
-        );
-        $o[] = array(
-            'id' => 'pootlepress-mmm-panel-close-icon-bg-color',
-            'name' => 'Close icon background color',
-            'desc' => 'Close icon background color',
-            'type' => 'color',
-            'std' => '#999999'
-        );
-        $o[] = array(
-            'id' => 'pootlepress-mmm-panel-close-icon-border-radius',
-            'name' => 'Close icon rounded corner radius',
-            'desc' => 'Close icon rounded corner radius (e.g. 3px)',
-            'type' => 'text',
-            'std' => '3px'
-        );
+
         $o[] = array(
             'id' => 'pootlepress-mmm-panel-close-icon-right',
             'name' => 'Move close icon to right',
@@ -449,6 +487,50 @@ class Pootlepress_Mobile_Menu_manager {
             'type' => 'checkbox',
             'std' => 'false'
         );
+        $o[] = array(
+            'id' => 'pootlepress-mmm-panel-shop-icon-class',
+            'name' => 'Shop icon FontAwesome class',
+            'desc' => 'Shop icon FontAwesome class (e.g. fa-globe)',
+            'type' => 'text',
+            'std' => 'fa-shopping-cart'
+        );
+        $o[] = array(
+            'id' => 'pootlepress-mmm-panel-subscribe-icon-class',
+            'name' => 'Subscribe icon FontAwesome class',
+            'desc' => 'Subscribe icon FontAwesome class (e.g. fa-globe)',
+            'type' => 'text',
+            'std' => 'fa-rss'
+        );
+
+        $o[] = array(
+            'id' => 'pootlepress-mmm-panel-icon-size',
+            'name' => 'Icon size',
+            'desc' => 'Icon size (e.g. 1em, 14px)',
+            'type' => 'text',
+            'std' => '1em'
+        );
+        $o[] = array(
+            'id' => 'pootlepress-mmm-panel-icon-color',
+            'name' => 'Icon color',
+            'desc' => 'Icon color',
+            'type' => 'color',
+            'std' => '#ffffff'
+        );
+        $o[] = array(
+            'id' => 'pootlepress-mmm-panel-icon-bg-color',
+            'name' => 'Icon background color',
+            'desc' => 'Icon background color',
+            'type' => 'color',
+            'std' => '#999999'
+        );
+        $o[] = array(
+            'id' => 'pootlepress-mmm-panel-icon-border-radius',
+            'name' => 'Icon rounded corner radius',
+            'desc' => 'Icon rounded corner radius (e.g. 3px)',
+            'type' => 'text',
+            'std' => '3px'
+        );
+
         $o[] = array(
             'id' => 'pootlepress-mmm-panel-search-box-font',
             'name' => 'Search box font',
@@ -469,6 +551,29 @@ class Pootlepress_Mobile_Menu_manager {
             'desc' => 'Search icon color',
             'type' => 'color',
             'std' => '#000000'
+        );
+
+        // phone number
+        $o[] = array(
+            'id' => 'pootlepress-mmm-panel-phone-number',
+            'name' => 'Phone number',
+            'desc' => 'Phone number',
+            'type' => 'text',
+            'std' => ''
+        );
+        $o[] = array(
+            'id' => 'pootlepress-mmm-panel-phone-number-font',
+            'name' => 'Phone number font',
+            'desc' => 'Phone number font',
+            'type' => 'typography',
+            'std' => array('size' => '1','unit' => 'em', 'face' => '"Helvetica Neue", Helvetica, sans-serif','style' => 'normal','color' => '#777777')
+        );
+        $o[] = array(
+            'id' => 'pootlepress-mmm-panel-phone-number-pos',
+            'name' => 'Phone number position',
+            'desc' => 'Phone number position',
+            'type' => 'select',
+            'options' => array('Above menu', 'Below menu')
         );
 
         // Mobile Options
@@ -497,8 +602,31 @@ class Pootlepress_Mobile_Menu_manager {
             'type' => 'checkbox',
             'std' => 'false'
         );
+        $o[] = array(
+            'id' => 'pootlepress-mmm-option-hide-top-nav',
+            'name' => 'Hide top nav',
+            'desc' => 'Hide top nav',
+            'type' => 'checkbox',
+            'std' => 'false'
+        );
         return $o;
 	} // End add_theme_options()
+
+    public function panel_logo() {
+        if ($this->panelLogo !== '') {
+            ?>
+            <div class='panel-logo'><img alt='logo' src="<?php esc_attr_e($this->panelLogo) ?>" /></div>
+        <?php
+        }
+    }
+
+    public function panel_phone_number() {
+        if ($this->panelPhoneNumber !== '') {
+            ?>
+            <div class="panel-phone-number"><?php esc_html_e($this->panelPhoneNumber) ?></div>
+            <?php
+        }
+    }
 
     public function option_css() {
 
@@ -530,8 +658,19 @@ class Pootlepress_Mobile_Menu_manager {
     line-height: inherit;
 }
 OPTIONCSS;
+
+        $css .= ".nav-toggle img { vertical-align: top; position: relative; z-index: 1; }\n";
+
+        if ($this->navToggleLogoAlign == "Left") {
+            $css .= ".nav-toggle { text-align: left; }\n";
+        } else if ($this->navToggleLogoAlign == 'Center') {
+            $css .= ".nav-toggle { text-align: center; }\n";
+        } else if ($this->navToggleLogoAlign == 'Right') {
+            $css .= ".nav-toggle { text-align: right; }\n";
+        }
+
         if ($this->navToggleIconPos == 'Left') {
-            $css .= ".nav-toggle i { padding: 0 1em 0 0.5em; margin-left: 0.5em; border-right: 1px solid rgba(255, 255, 255, 0.1); }\n";
+            $css .= ".nav-toggle i { float: left; padding: 0 1em 0 0.5em; margin-left: 0.5em; border-right: 1px solid rgba(255, 255, 255, 0.1); }\n";
         } else {
             $css .= ".nav-toggle i { float: right; padding: 0 0.5em 0 1em; margin-right: 0.5em; border-left: 1px solid rgba(255, 255, 255, 0.1); }\n";
         }
@@ -598,6 +737,8 @@ NAVBGCOLOR;
         $css .= "}\n";
 
 
+        $css .= ".nav-toggle a { line-height: 36px !important; }\n";
+
         //
         // Panel
         //
@@ -643,6 +784,21 @@ NAVBGCOLOR;
     }
 
 PANELTRANSFORM;
+        }
+
+        if ($this->panelLogo !== '') {
+            $css .= "#navigation .panel-logo {\n";
+            $css .= "\t" . "padding: 1em; \n";
+            $css .= "}\n";
+
+            $css .= "#navigation .panel-logo img {\n";
+            $css .= "\t" . "width: 100%; height: auto; \n";
+            $css .= "}\n";
+        }
+
+        if (function_exists('has_nav_menu') && has_nav_menu('mobile-menu')) {
+            $css .= "#navigation .primary-nav-container { display: none; }\n";
+            $css .= "#navigation .top-menu, #navigation #top-nav { display: none; }\n";
         }
 
         // panel bg color
@@ -710,6 +866,12 @@ PANELTRANSFORM;
             $css .= "\t" . 'display: none;' . "\n";
             $css .= "}\n";
         }
+        // subscribe icon remove
+        if ($this->panelSubscribeIconRemove === 'true') {
+            $css .= "#navigation .rss {\n";
+            $css .= "\t" . 'display: none;' . "\n";
+            $css .= "}\n";
+        }
 
         // home icon styling
         // remove default home icon styling
@@ -720,16 +882,16 @@ PANELTRANSFORM;
         // home icon css
 
         $homeCss = '';
-        $homeCss .= 'color: ' . $this->panelHomeIconColor . '; ';
-        $homeCss .= 'background-color: ' . $this->panelHomeIconBgColor . '; ';
-        $homeCss .= 'border-radius: ' . $this->panelHomeIconBorderRadius . ' !important; ';
-        $homeCss .= 'width: ' . $this->panelHomeIconSize . '; ';
-        $homeCss .= 'height: ' . $this->panelHomeIconSize . '; ';
+        $homeCss .= 'color: ' . $this->panelIconColor . ' !important; ';
+        $homeCss .= 'background-color: ' . $this->panelIconBgColor . ' !important; ';
+        $homeCss .= 'border-radius: ' . $this->panelIconBorderRadius . ' !important; ';
+        $homeCss .= 'width: ' . $this->panelIconSize . ' !important; ';
+        $homeCss .= 'height: ' . $this->panelIconSize . ' !important; ';
 
         $homeIconCss = '';
-        $homeIconCss .= 'display: block; ';
-        $homeIconCss .= 'text-align: center; text-indent: 0; text-decoration: none; ';
-        $homeIconCss .= 'font-size: ' . $this->panelHomeIconSize . '; ';
+        $homeIconCss .= 'display: block !important; ';
+        $homeIconCss .= 'text-align: center !important; text-indent: 0 !important; text-decoration: none !important; ';
+        $homeIconCss .= 'font-size: ' . $this->panelIconSize . ' !important; ';
 
         $css .= "#navigation .nav-home{\n";
         $css .= "\t" . $homeCss . "\n";
@@ -755,20 +917,20 @@ PANELTRANSFORM;
 
         // close icon css
 
-        $closeCss = '';
-        $closeCss .= 'color: ' . $this->panelCloseIconColor . '; ';
-        $closeCss .= 'background-color: ' . $this->panelCloseIconBgColor . '; ';
-        $closeCss .= 'border-radius: ' . $this->panelCloseIconBorderRadius . ' !important; ';
-        $closeCss .= 'width: ' . $this->panelCloseIconSize . '; ';
-        $closeCss .= 'height: ' . $this->panelCloseIconSize . '; ';
-
-        $closeIconCss = '';
-        $closeIconCss .= 'display: block; ';
-        $closeIconCss .= 'text-align: center; text-indent: 0; text-decoration: none; ';
-        $closeIconCss .= 'font-size: ' . $this->panelCloseIconSize . '; ';
+//        $closeCss = '';
+//        $closeCss .= 'color: ' . $this->panelCloseIconColor . '; ';
+//        $closeCss .= 'background-color: ' . $this->panelCloseIconBgColor . '; ';
+//        $closeCss .= 'border-radius: ' . $this->panelCloseIconBorderRadius . ' !important; ';
+//        $closeCss .= 'width: ' . $this->panelCloseIconSize . '; ';
+//        $closeCss .= 'height: ' . $this->panelCloseIconSize . '; ';
+//
+//        $closeIconCss = '';
+//        $closeIconCss .= 'display: block; ';
+//        $closeIconCss .= 'text-align: center; text-indent: 0; text-decoration: none; ';
+//        $closeIconCss .= 'font-size: ' . $this->panelCloseIconSize . '; ';
 
         $css .= "#navigation .nav-close{\n";
-        $css .= "\t" . $closeCss . "\n";
+        $css .= "\t" . $homeCss . "\n";
         $css .= "}\n";
 
         $css .= "#navigation .nav-close:hover {\n";
@@ -780,7 +942,44 @@ PANELTRANSFORM;
         $css .= "}\n";
 
         $css .= "#navigation .nav-close i{\n";
-        $css .= "\t" . $closeIconCss . "\n";
+        $css .= "\t" . $homeIconCss . "\n";
+        $css .= "}\n";
+
+        // shop icon
+        $css .= "#navigation .cart > li > ul { display: none; }\n";
+
+        $css .= "#navigation .cart .cart-contents .text { display: none; } \n";
+
+        $css .= "#navigation .cart .cart-contents:before {\n";
+        $css .= "\t" . "content: '' !important;\n";
+        $css .= "}\n";
+
+        $css .= "#navigation .cart .cart-contents {\n";
+        $css .= "\t" . $homeCss . "\n";
+        $css .= "}\n";
+
+        $css .= "#navigation .cart .cart-contents i {\n";
+        $css .= "\t" . "position: absolute; right: 7px; top: 7px; z-index: 1;\n";
+        $css .= "\t" . $homeIconCss . "\n";
+        $css .= "}\n";
+
+        // subscribe icon
+        $css .= "#navigation .rss a:before {\n";
+        $css .= "\t" . "content: '' !important;\n";
+        $css .= "}\n";
+
+        $css .= "#navigation .rss a {\n";
+        $css .= "\t" . $homeCss . "\n";
+        $css .= "}\n";
+
+        $css .= "#navigation .rss i {\n";
+        $css .= "\t" . "z-index: 1; position: absolute; left: 9px; top: 7px; \n";
+        $css .= "\t" . $homeIconCss . "\n";
+        $css .= "}\n";
+
+        // hide search icon
+        $css .= "#navigation .nav-search .search-contents {\n";
+        $css .= "\t" . 'display: none !important;' . "\n";
         $css .= "}\n";
 
         // move close icon to right overwriting home icon
@@ -817,6 +1016,10 @@ PANELTRANSFORM;
         $css .= "\t" . "color: rgba($r, $g, $b, 0.5)" . ";\n";
         $css .= "}\n";
 
+        // panel phone number
+        $c = $this->generate_font_css($this->panelPhoneNumberFont);
+        $css .= ".panel-phone-number { " . $c . " text-align: center; padding: 1em; }\n";
+
         // option enable/disable sidebar
         if ($this->optionSidebarEnable === 'false') {
             $css .= "#sidebar {\n";
@@ -834,6 +1037,10 @@ PANELTRANSFORM;
             $css .= "#navigation .nav-search {\n";
             $css .= "\t" . 'display: none;' . "\n";
             $css .= "}\n";
+        }
+
+        if ($this->optionHideTopNav === 'true') {
+            $css .= "#navigation .top-menu, #navigation #top-nav { display: none !important; }\n";
         }
 
         $css .= "}\n"; // close media query
