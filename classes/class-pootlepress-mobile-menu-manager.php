@@ -121,7 +121,7 @@ class Pootlepress_Mobile_Menu_manager {
             add_action('woo_nav_inside', array($this, 'panel_phone_number'), 11);
         }
 
-        add_action('after_setup_theme', array($this, 'after_setup_theme'));
+        add_action('after_setup_theme', array($this, 'after_setup_theme'), 100);
 
         $this->navToggleLogo = get_option('pootlepress-mmm-nav-toggle-logo', '');
         $this->navToggleLogoAlign = get_option('pootlepress-mmm-nav-toggle-logo-align', 'Left');
@@ -1044,6 +1044,15 @@ PANELTRANSFORM;
         }
 
         $css .= "}\n"; // close media query
+
+        // hide mobile menu, panel logo and phone number in desktop view
+        $css .= "@media only screen and (min-width: 768px) {\n";
+
+        $css .= "#navigation .panel-logo { display: none; }\n";
+        $css .= "#navigation .panel-phone-number { display: none; }\n";
+        $css .= "#navigation .mobile-nav-container { display: none; }\n";
+
+        $css .= "}\n";
 
         echo "<style>".$css."</style>";
     }
