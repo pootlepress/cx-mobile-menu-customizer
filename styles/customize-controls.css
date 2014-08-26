@@ -1,0 +1,59 @@
+#customize-controls #accordion-section-mmm_mobile_nav_bar_section .customize-control,
+#customize-controls #accordion-section-mmm_mobile_menu_panel_section .customize-control,
+#customize-controls #accordion-section-mmm_mobile_options_section .customize-control
+{
+    padding-top: 10px;
+    border-top: 1px dotted #a0a0a0;
+    margin-top: 15px;
+}
+
+#customize-controls #accordion-section-mmm_mobile_nav_bar_section .customize-control:first-child,
+#customize-controls #accordion-section-mmm_mobile_menu_panel_section .customize-control:first-child,
+#customize-controls #accordion-section-mmm_mobile_options_section .customize-control:first-child
+{
+    padding: 0;
+    border-top: none;
+    margin-top: 0;
+}
+
+#customize-controls .customize-control-font .separator,
+#customize-controls .customize-control-border .separator,
+#customize-controls .customize-control-padding .separator,
+#customize-controls .customize-control-shadow .separator
+{
+    height: 10px;
+}
+
+#customize-controls .customize-control-font .wp-picker-container,
+#customize-controls .customize-control-border .wp-picker-container,
+#customize-controls .customize-control-shadow .wp-picker-container
+{
+    margin: 0;
+    vertical-align: middle;
+}
+
+#customize-controls .customize-control-font .sc-font-size-unit
+{
+    width: 60px;
+    min-width: 60px;
+    max-width: 60px;
+}
+
+#customize-controls .customize-control-slider .slider
+{
+    vertical-align: middle;
+}
+
+#customize-controls .customize-control-slider .current-value-text
+{
+    vertical-align: middle;
+    line-height: 15px;
+    margin-left: 10px;
+}
+
+#customize-controls #customize-theme-controls .reset-row
+{
+    text-align: center;
+    padding: 10px 0;
+    list-style-type: none;
+}
