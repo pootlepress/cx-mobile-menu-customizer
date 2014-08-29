@@ -838,6 +838,14 @@ PANELTRANSFORM;
 
         $css .= "}\n"; // close media query
 
+		// hide mobile menu, panel logo and phone number in desktop view
+        $css .= "@media only screen and (min-width: 768px) {\n";
+
+        $css .= "#navigation .cart i { display: none; }\n";
+        $css .= "#navigation { min-height: 0; }\n";
+
+        $css .= "}\n";
+		
         echo "<style>".$css."</style>";
     }
 
