@@ -119,11 +119,18 @@ class Pootlepress_Mobile_Menu_manager {
         add_action( 'wp_head', array($this, 'google_webfonts'), 150);
         add_action('customize_register', array($this, 'register') );
 
+        add_action( 'customize_controls_enqueue_scripts', array($this, 'customizer_script' ));
+
         add_action('wp_head', array($this, 'load_saved_options'), 100);
 
         $this->init_options();
 
 	} // End __construct()
+
+    public function customizer_script() {
+        wp_dequeue_script('accordion');
+        wp_enqueue_script('pootlepress-accordion', plugin_dir_url($this->file) . 'scripts/accordion.js', array('jquery'), false, true);
+    }
 
     private function get_font_option($optionName, $defaults) {
         $fontFamily = get_option($optionName . '_id', $defaults['face']);
@@ -919,7 +926,7 @@ class Pootlepress_Mobile_Menu_manager {
         ));
 
         $customizeManager->add_section('mmm_mobile_options_section', array(
-            'title' => 'Mobile Options',
+            'title' => 'Misc Mobile Options',
             'priority' => 12
         ));
 
