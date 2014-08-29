@@ -1521,6 +1521,7 @@ PANELTRANSFORM;
         $css .= "#navigation .panel-phone-number { display: none; }\n";
         $css .= "#navigation .mobile-nav-container { display: none; }\n";
         $css .= "#navigation .cart i { display: none; }\n";
+        $css .= "#navigation { min-height: 0; }\n";
 
         $css .= "}\n";
 
