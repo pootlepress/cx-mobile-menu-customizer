@@ -41,11 +41,18 @@ if(!function_exists('poo_commit_suicide')) {
 if ( ! function_exists( 'woo_nav_toggle' ) ) {
     function woo_nav_toggle () {
 
+        $logo = get_option('pootlepress-mmm-nav-toggle-logo', '');
+        $image = "";
+        if ($logo != '') {
+            $image = "<img src='" . esc_attr($logo) . "' />";
+        }
+
         $navIconClass = get_option('pootlepress-mmm-nav-toggle-icon', 'fa-align-justify');
         $navText = get_option('pootlepress-mmm-nav-word-text', 'Navigation');
 
+        $s = ($image == '' ? esc_html($navText) : $image);
         ?>
-        <h3 class="nav-toggle icon"><i class="fa <?php esc_attr_e($navIconClass) ?>"></i><a href="#navigation"><?php esc_html_e($navText) ?></a></h3>
+        <h3 class="nav-toggle icon"><i class="fa <?php esc_attr_e($navIconClass) ?>"></i><a href="#navigation"><?php echo $s; ?></a></h3>
     <?php
     } // End woo_nav_toggle()
 }
@@ -56,6 +63,7 @@ if ( ! function_exists( 'woo_nav_primary' ) ) {
         $homeIconClass = get_option('pootlepress-mmm-panel-home-icon-class', 'fa-home');
 
         ?>
+        <div class="primary-nav-container">
         <a href="<?php echo home_url(); ?>" class="nav-home"><i class="fa <?php esc_attr_e($homeIconClass) ?>"></i><span><?php _e('Home', 'woothemes'); ?></span></a>
 
         <?php
@@ -85,30 +93,163 @@ if ( ! function_exists( 'woo_nav_primary' ) ) {
             </ul><!-- /#nav -->
         <?php
         }
-
+        ?>
+        </div>
+    <?php
     } // End woo_nav_primary()
 }
 
 if ( ! function_exists( 'woo_nav' ) ) {
+
     function woo_nav() {
         global $woo_options;
         woo_nav_before();
 
         $closeIconClass = get_option('pootlepress-mmm-panel-close-icon-class', 'fa-times');
-
         ?>
         <nav id="navigation" class="col-full" role="navigation">
 
-            <section class="menus">
+            <?php
+            $menu_class = 'menus';
+            $number_icons = 0;
+
+            $icons = array(
+                'woo_nav_rss',
+                'woo_nav_search',
+                'woo_header_cart_link'
+            );
+
+            foreach ( $icons as $icon ) {
+                if ( isset( $woo_options[ $icon ] ) && 'true' == $woo_options[ $icon ] ) {
+                    $number_icons++;
+                }
+            }
+
+            if ( isset( $woo_options[ 'woo_subscribe_email' ] ) && '' != $woo_options[ 'woo_subscribe_email' ] ) {
+                $number_icons++;
+            }
+
+            if ( 0 < $number_icons ) {
+                $menu_class .= ' nav-icons nav-icons-' . $number_icons;
+
+                if ( isset( $woo_options[ 'woo_header_cart_link' ] ) && 'true' == $woo_options['woo_header_cart_link'] ) {
+                    if ( isset( $woo_options[ 'woo_header_cart_total' ] ) && 'true' == $woo_options[ 'woo_header_cart_total' ] ) {
+                        $menu_class .= ' cart-extended';
+                    }
+                }
+            }
+            ?>
+
+            <section class="<?php echo $menu_class; ?>">
 
                 <?php woo_nav_inside(); ?>
 
             </section><!-- /.menus -->
 
-            <a href="#top" class="nav-close"><i class="fa <?php esc_attr_e($closeIconClass) ?>"></i><span><?php _e('Return to Content', 'woothemes' ); ?></span></a>
+            <a href="#top" class="nav-close"><i class="fa <?php esc_attr_e($closeIconClass) ?>"></i><span><?php _e( 'Return to Content', 'woothemes' ); ?></span></a>
 
         </nav>
         <?php
         woo_nav_after();
     } // End woo_nav()
+
+
+//    function woo_nav() {
+//        global $woo_options;
+//        woo_nav_before();
+//
+//        $closeIconClass = get_option('pootlepress-mmm-panel-close-icon-class', 'fa-times');
+//
+//        ?>
+<!--        <nav id="navigation" class="col-full" role="navigation">-->
+<!---->
+<!--            <section class="menus">-->
+<!---->
+<!--                --><?php //woo_nav_inside(); ?>
+<!---->
+<!--            </section><!-- /.menus -->-->
+<!---->
+<!--            <a href="#top" class="nav-close"><i class="fa --><?php //esc_attr_e($closeIconClass) ?><!--"></i><span>--><?php //_e('Return to Content', 'woothemes' ); ?><!--</span></a>-->
+<!---->
+<!--        </nav>-->
+<!--        --><?php
+//        woo_nav_after();
+//    } // End woo_nav()
+}
+
+if ( ! function_exists( 'woo_add_nav_cart_link' ) ) {
+
+    function woo_add_nav_cart_link () {
+        global $woocommerce;
+
+        $shopIconClass = get_option('pootlepress-mmm-panel-shop-icon-class', 'fa-shopping-cart');
+
+        $iconClasses = 'fa ' . $shopIconClass;
+
+        $settings = array('header_cart_link' => 'false', 'nav_rss' => 'false', 'header_cart_total' => 'false');
+        $settings = woo_get_dynamic_values($settings);
+
+        $class = 'cart fr';
+        if ('false' == $settings['nav_rss']) {
+            $class .= ' no-rss-link';
+        }
+        if (is_woocommerce_activated() && 'true' == $settings['header_cart_link']) {
+            ?>
+            <ul class="<?php echo esc_attr($class); ?>">
+                <li>
+                    <a class="cart-contents" href="<?php echo esc_url($woocommerce->cart->get_cart_url()); ?>"
+                       title="<?php esc_attr_e('View your shopping cart', 'woothemes'); ?>" >
+                        <i class="<?php echo $iconClasses ?>" ></i>
+                        <span class="text">
+                        <?php if ($settings['header_cart_total'] == 'true') {
+                            if ($woocommerce->cart->get_cart_contents_count() > 1) {
+                                $s = '<span class="count">%d</span> items';
+                            } else {
+                                $s = '<span class="count">%d</span> item';
+                            }
+                            $s = str_replace('%d', $woocommerce->cart->get_cart_contents_count(), $s);
+                            echo $s . ' - ' . $woocommerce->cart->get_cart_subtotal();
+                        } ?>
+                        </span>
+                    </a>
+                    <ul>
+                        <li>
+                            <?php
+                            if (version_compare(WOOCOMMERCE_VERSION, "2.0.0") >= 0) {
+                                the_widget('WC_Widget_Cart', 'title=');
+                            } else {
+                                the_widget('WooCommerce_Widget_Cart', 'title=');
+                            } ?>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        <?php
+        }
+    } // End woo_add_nav_cart_link()
+}
+
+if ( ! function_exists( 'woo_nav_subscribe' ) ) {
+    function woo_nav_subscribe() {
+        global $woo_options;
+
+        $subscribeIconClass = get_option('pootlepress-mmm-panel-subscribe-icon-class', 'fa-rss');
+
+        $iconClasses = 'fa ' . $subscribeIconClass;
+
+        $class = '';
+        if ( isset( $woo_options['woo_header_cart_link'] ) && 'true' == $woo_options['woo_header_cart_link'] )
+            $class = ' cart-enabled';
+
+        if ( ( isset( $woo_options['woo_nav_rss'] ) ) && ( $woo_options['woo_nav_rss'] == 'true' ) || ( isset( $woo_options['woo_subscribe_email'] ) ) && ( $woo_options['woo_subscribe_email'] ) ) { ?>
+            <ul class="rss fr<?php echo $class; ?>">
+                <?php if ( ( isset( $woo_options['woo_subscribe_email'] ) ) && ( $woo_options['woo_subscribe_email'] ) ) { ?>
+                    <li class="sub-email"><a href="<?php echo esc_url( $woo_options['woo_subscribe_email'] ); ?>"><i class="<?php echo $iconClasses ?>"></i></a></li>
+                <?php } ?>
+                <?php if ( isset( $woo_options['woo_nav_rss'] ) && ( $woo_options['woo_nav_rss'] == 'true' ) ) { ?>
+                    <li class="sub-rss"><a href="<?php if ( $woo_options['woo_feed_url'] ) { echo esc_url( $woo_options['woo_feed_url'] ); } else { echo esc_url( get_bloginfo_rss( 'rss2_url' ) ); } ?>"><i class="<?php echo $iconClasses ?>"></i></a></li>
+                <?php } ?>
+            </ul>
+        <?php }
+    } // End woo_nav_subscribe()
 }
