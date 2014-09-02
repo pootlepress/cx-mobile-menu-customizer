@@ -123,9 +123,17 @@ class Pootlepress_Mobile_Menu_manager {
 
         add_action('wp_head', array($this, 'load_saved_options'), 100);
 
+        add_action('init', array($this, 'woocommerce_setup'));
+
         $this->init_options();
 
 	} // End __construct()
+
+    public function woocommerce_setup() {
+
+        remove_filter('add_to_cart_fragments', 'woocommerce_header_add_to_cart_fragment', 10);
+        add_filter('add_to_cart_fragments', array($this, 'add_to_cart_fragment'));
+    }
 
     public function customizer_script() {
         wp_dequeue_script('accordion');
@@ -1073,7 +1081,42 @@ class Pootlepress_Mobile_Menu_manager {
         );
 
         add_action( 'woo_nav_inside', array($this, 'woo_nav_mobile'), 10);
+
     }
+
+    public function add_to_cart_fragment( $fragments ) {
+
+        $shopIconClass = get_option('pootlepress-mmm-panel-shop-icon-class', 'fa-shopping-cart');
+
+        $iconClasses = 'fa ' . $shopIconClass;
+
+        global $woocommerce;
+        $settings = array( 'header_cart_link' => 'false', 'nav_rss' => 'false', 'header_cart_total' => 'false' );
+        $settings = woo_get_dynamic_values( $settings );
+
+        ob_start();
+        ?>
+        <a class="cart-contents" href="<?php echo esc_url( $woocommerce->cart->get_cart_url() ); ?>" title="<?php _e('View your shopping cart', 'woothemes'); ?>">
+
+            <i class="<?php echo $iconClasses ?>" ></i>
+            <span class="text">
+            <?php if ($settings['header_cart_total'] == 'true') {
+                if ($woocommerce->cart->get_cart_contents_count() > 1) {
+                    $s = '<span class="count">%d</span> items';
+                } else {
+                    $s = '<span class="count">%d</span> item';
+                }
+                $s = str_replace('%d', $woocommerce->cart->get_cart_contents_count(), $s);
+                echo $s . ' - ' . $woocommerce->cart->get_cart_subtotal();
+            } ?>
+            </span>
+        </a>
+        <?php
+
+        $fragments['a.cart-contents'] = ob_get_clean();
+
+        return $fragments;
+    } // End woocommerce_header_add_to_cart_fragment()
 
     public function front_end_scripts() {
         // hack to set the html for shopping cart

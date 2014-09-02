@@ -208,6 +208,7 @@ if ( ! function_exists( 'woo_add_nav_cart_link' ) ) {
     } // End woo_add_nav_cart_link()
 }
 
+
 if ( ! function_exists( 'woo_nav_subscribe' ) ) {
     function woo_nav_subscribe() {
         global $woo_options;
