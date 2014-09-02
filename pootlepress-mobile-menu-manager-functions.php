@@ -153,28 +153,6 @@ if ( ! function_exists( 'woo_nav' ) ) {
         woo_nav_after();
     } // End woo_nav()
 
-
-//    function woo_nav() {
-//        global $woo_options;
-//        woo_nav_before();
-//
-//        $closeIconClass = get_option('pootlepress-mmm-panel-close-icon-class', 'fa-times');
-//
-//        ?>
-<!--        <nav id="navigation" class="col-full" role="navigation">-->
-<!---->
-<!--            <section class="menus">-->
-<!---->
-<!--                --><?php //woo_nav_inside(); ?>
-<!---->
-<!--            </section><!-- /.menus -->-->
-<!---->
-<!--            <a href="#top" class="nav-close"><i class="fa --><?php //esc_attr_e($closeIconClass) ?><!--"></i><span>--><?php //_e('Return to Content', 'woothemes' ); ?><!--</span></a>-->
-<!---->
-<!--        </nav>-->
-<!--        --><?php
-//        woo_nav_after();
-//    } // End woo_nav()
 }
 
 if ( ! function_exists( 'woo_add_nav_cart_link' ) ) {
