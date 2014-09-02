@@ -57,15 +57,12 @@ if ( ! class_exists( 'MMM_Padding_Control' ) ) :
             $default_amount = $this->default['width' . $number];
 
             $current_amount = isset( $value ) ? $value : $default_amount;
-            if ($current_amount == '') {
-                $current_amount = $default_amount;
-            }
 
             // Get control view
             ?>
             <label><?php _e( $this->{'label' . $number}, 'scratch' ); ?>
 
-                <input class='pp-width-<?php echo $number ?>-number' type="number" min="<?php echo $min_range ?>"
+                <input class='width-<?php echo $number ?>-number' type="number" min="<?php echo $min_range ?>"
                        max="<?php echo $max_range ?>" step="<?php echo $step ?>" value="<?php echo $current_amount ?>"
                        default="<?php echo $default_amount ?>"
                     <?php $this->link('width' . $number) ?>
@@ -77,19 +74,19 @@ if ( ! class_exists( 'MMM_Padding_Control' ) ) :
         <?php
         }
 
-		/**
-		 * Render Control Content
-		 *
-		 * Renders the control in the WordPress Customizer.
-		 * Each section of the control has been split up
-		 * in functions in order to make them easier to
-		 * manage and update.
-		 * 
-		 * @since 1.2
-		 * @version 1.3.1
-		 * 
-		 */
-		public function render_content() {
+        /**
+         * Render Control Content
+         *
+         * Renders the control in the WordPress Customizer.
+         * Each section of the control has been split up
+         * in functions in order to make them easier to
+         * manage and update.
+         *
+         * @since 1.2
+         * @version 1.3.1
+         *
+         */
+        public function render_content() {
             ?>
             <label>
                 <span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
@@ -103,7 +100,7 @@ if ( ! class_exists( 'MMM_Padding_Control' ) ) :
 
                 </div>
             </label>
-            <?php
-		}
+        <?php
+        }
 	}
 endif;

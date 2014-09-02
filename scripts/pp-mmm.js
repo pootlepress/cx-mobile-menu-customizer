@@ -9,8 +9,10 @@
 
             var html = MMM.cartHtml;
 
-            $('#navigation .cart').remove();
-            $('#navigation .side-nav').prepend(html);
+//            $('#navigation .cart').remove();
+//            $('#navigation .side-nav').prepend(html);
+
+
 //            $('#navigation .side-nav .cart .cart-contents').addClass(MMM.shopIconClass);
 
 //            console.log('Cart Icon length: ' + $('#navigation .side-nav .cart i').length);

@@ -24,18 +24,51 @@ class MMM_Image_Control extends WP_Customize_Image_Control {
             $this->add_tab( 'default',  __('Default'),  array( $this, 'tab_default_background' ) );
     }
 
-    public function enqueue() {
+//    public function __construct( $manager, $id, $args ) {
+//        parent::__construct( $manager, $id, $args);
+//    }
 
+
+
+    public function to_json() {
+        parent::to_json();
+    }
+
+    public function enqueue() {
         $file = $GLOBALS['pootlepress_mobile_menu_manager']->file;
 
         wp_enqueue_style('mmm-customize-controls', plugin_dir_url($file) . 'styles/customize-controls.css');
+/*
+        wp_enqueue_media();
+        wp_enqueue_script( 'customize-views' );
 
+        $this->prepare_control();
+
+        wp_localize_script( 'customize-views', '_wpCustomizeHeader', array(
+            'data' => array(
+                'width' => absint( get_theme_support( 'custom-header', 'width' ) ),
+                'height' => absint( get_theme_support( 'custom-header', 'height' ) ),
+                'flex-width' => absint( get_theme_support( 'custom-header', 'flex-width' ) ),
+                'flex-height' => absint( get_theme_support( 'custom-header', 'flex-height' ) ),
+                'currentImgSrc' => $this->get_current_image_src(),
+            ),
+            'nonces' => array(
+                'add' => wp_create_nonce( 'header-add' ),
+                'remove' => wp_create_nonce( 'header-remove' ),
+            ),
+            'uploads' => $this->uploaded_headers,
+            'defaults' => $this->default_headers
+        ) );
+*/
         parent::enqueue();
     }
+
+
 
     /**
      * @since 3.4.0
      */
+
     public function tab_uploaded() {
         $backgrounds = get_posts( array(
             'post_type'  => 'attachment',

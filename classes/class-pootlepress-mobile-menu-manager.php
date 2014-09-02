@@ -308,10 +308,29 @@ class Pootlepress_Mobile_Menu_manager {
                 ++$currentSectionIndex;
                 $currentSection = $sections[$currentSectionIndex];
                 $currentPriority = 10;
-            } else if ($option['type'] == 'upload' ||
-                $option['type'] == 'text' ||
-                $option['type'] == 'color'
-            ) {
+            } else if ($option['type'] == 'upload') {
+
+                $settingId = $option['id'];
+                $optionType = $option['type'];
+                $optionLabel = $option['name'];
+                $optionDefault = $option['std'];
+                $optionSection = $currentSection;
+                $optionPriority = $currentPriority;
+
+                $this->options[$settingId] = array(
+                    'id' => $settingId,
+                    'type' => $optionType,
+                    'label' => $optionLabel,
+                    'section' => $optionSection,
+                    'setting' => $settingId,
+                    'default' => $optionDefault,
+                    'priority' => $optionPriority
+                );
+
+                ++$currentPriority;
+
+            } else if ($option['type'] == 'text' || $option['type'] == 'color') {
+
                 $settingId = $option['id'];
                 $optionType = $option['type'];
                 $optionLabel = $option['name'];
@@ -913,6 +932,7 @@ class Pootlepress_Mobile_Menu_manager {
         require_once dirname(__FILE__) . '/class-mmm-padding-control.php';
         require_once dirname(__FILE__) . '/class-mmm-shadow-control.php';
         require_once dirname(__FILE__) . '/class-mmm-image-control.php';
+        require_once dirname(__FILE__) . '/class-mmm-common-control.php';
 
         // sections
         $customizeManager->add_section('mmm_mobile_nav_bar_section', array(
@@ -1003,7 +1023,7 @@ class Pootlepress_Mobile_Menu_manager {
                     'type' => 'option'
                 ));
 
-                $customizeManager->add_control(new WP_Customize_Control($customizeManager, $option['id'], $option));
+                $customizeManager->add_control(new MMM_Common_Control($customizeManager, $option['id'], $option));
             } else if ($option['type'] == 'checkbox' || $option['type'] == 'text') {
 
                 $customizeManager->add_setting($option['id'], array(
@@ -1011,7 +1031,7 @@ class Pootlepress_Mobile_Menu_manager {
                     'type' => 'option'
                 ));
 
-                $customizeManager->add_control(new WP_Customize_Control($customizeManager, $option['id'], $option));
+                $customizeManager->add_control(new MMM_Common_Control($customizeManager, $option['id'], $option));
 
             } else if ($option['type'] == 'upload') {
                 $customizeManager->add_setting( $option['id'], array(
@@ -1026,10 +1046,19 @@ class Pootlepress_Mobile_Menu_manager {
                 $customizeManager->add_control( new MMM_Image_Control( $customizeManager, $option['id'], array(
                     'label'    => $option['label'],
                     'section'  => $option['section'],
-                    'priority' => $option['priority']
+                    'priority' => $option['priority'],
+
+                    'setting' => $option['id'],
+//                    'settings' => array(
+//                        'default' => $option['id'],
+//                        'data'    => $option['id'] . '_data',
+//                    ),
+//                    'context'  => 'custom-header',
+//                    'removed'  => 'remove-header',
+//                    'get_url'  => 'get_header_image',
+
 //                    'context'  => 'custom-background',
 //                    'get_url'  => 'get_background_image',
-//                    'priority' => 40
                 ) ) );
             }
 
@@ -1049,7 +1078,7 @@ class Pootlepress_Mobile_Menu_manager {
     public function front_end_scripts() {
         // hack to set the html for shopping cart
         // because somehow the theme set its own html in javascript
-        wp_enqueue_script('pootlepress-mmm-front-end', plugin_dir_url($this->file) . 'scripts/pp-mmm.js', array('jquery'));
+//        wp_enqueue_script('pootlepress-mmm-front-end', plugin_dir_url($this->file) . 'scripts/pp-mmm.js', array('jquery'));
 
         ob_start();
         woo_add_nav_cart_link();

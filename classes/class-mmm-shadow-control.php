@@ -125,19 +125,19 @@ if ( ! class_exists( 'MMM_Shadow_Control' ) ) :
         }
 
 
-		/**
-		 * Render Control Content
-		 *
-		 * Renders the control in the WordPress Customizer.
-		 * Each section of the control has been split up
-		 * in functions in order to make them easier to
-		 * manage and update.
-		 * 
-		 * @since 1.2
-		 * @version 1.3.1
-		 * 
-		 */
-		public function render_content() {
+        /**
+         * Render Control Content
+         *
+         * Renders the control in the WordPress Customizer.
+         * Each section of the control has been split up
+         * in functions in order to make them easier to
+         * manage and update.
+         *
+         * @since 1.2
+         * @version 1.3.1
+         *
+         */
+        public function render_content() {
             ?>
             <label>
                 <span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
@@ -155,7 +155,7 @@ if ( ! class_exists( 'MMM_Shadow_Control' ) ) :
 
                 </div>
             </label>
-            <?php
-		}
+        <?php
+        }
 	}
 endif;

@@ -65,7 +65,7 @@ if ( ! class_exists( 'MMM_Border_Control' ) ) :
             ?>
             <label><?php _e( 'Border Width', 'scratch' ); ?>
 
-                <input class='pp-border-width-number' type="number" min="<?php echo $min_range ?>"
+                <input class='border-width-number' type="number" min="<?php echo $min_range ?>"
                        max="<?php echo $max_range ?>" step="<?php echo $step ?>" value="<?php echo $current_amount ?>"
                        default="<?php echo $default_amount ?>"
                     <?php $this->link('border_width') ?>
@@ -93,7 +93,7 @@ if ( ! class_exists( 'MMM_Border_Control' ) ) :
             // Get control view
             ?>
             <label><?php _e( 'Border Style', 'scratch' ); ?>
-                <select class='pp-border-style-list' <?php $this->link('border_style') ?> data-default-value="<?php echo $default_value ?>" autocomplete="off">
+                <select class='border-style-list' <?php $this->link('border_style') ?> data-default-value="<?php echo $default_value ?>" autocomplete="off">
 
 
                     <?php foreach ( $default_styles as $id => $text ) : ?>
@@ -113,7 +113,7 @@ if ( ! class_exists( 'MMM_Border_Control' ) ) :
             // Get control view
             ?>
             <label><?php _e( 'Border Color', 'scratch' ); ?>
-                <input class="color-picker-hex pp-font-color-text-box" type="text" maxlength="7" placeholder="<?php esc_attr_e( 'Hex Value' ); ?>"
+                <input class="color-picker-hex font-color-text-box" type="text" maxlength="7" placeholder="<?php esc_attr_e( 'Hex Value' ); ?>"
                        value="<?php echo $current_color; ?>" data-default-color="<?php echo $default_color ?>"
                     <?php $this->link('border_color') ?>
                     />
@@ -123,29 +123,29 @@ if ( ! class_exists( 'MMM_Border_Control' ) ) :
         }
 
 
-		/**
-		 * Render Control Content
-		 *
-		 * Renders the control in the WordPress Customizer.
-		 * Each section of the control has been split up
-		 * in functions in order to make them easier to
-		 * manage and update.
-		 * 
-		 * @since 1.2
-		 * @version 1.3.1
-		 * 
-		 */
-		public function render_content() {
+        /**
+         * Render Control Content
+         *
+         * Renders the control in the WordPress Customizer.
+         * Each section of the control has been split up
+         * in functions in order to make them easier to
+         * manage and update.
+         *
+         * @since 1.2
+         * @version 1.3.1
+         *
+         */
+        public function render_content() {
             ?>
             <label>
                 <span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
                 <div class="customize-control-content">
 
                     <?php $this->get_border_width_control(); ?>
-<!---->
-<!--                    <div class="separator"></div>-->
-<!---->
-<!--                    --><?php //$this->get_border_style_control(); ?>
+                    <!---->
+                    <!--                    <div class="separator"></div>-->
+                    <!---->
+                    <!--                    --><?php //$this->get_border_style_control(); ?>
 
                     <div class="separator"></div>
 
@@ -153,7 +153,7 @@ if ( ! class_exists( 'MMM_Border_Control' ) ) :
 
                 </div>
             </label>
-            <?php
-		}
+        <?php
+        }
 	}
 endif;
