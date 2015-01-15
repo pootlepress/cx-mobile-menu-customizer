@@ -100,7 +100,6 @@ class Pootlepress_Mobile_Menu_manager {
 	public function __construct ( $file ) {
 		$this->file = $file;
 		$this->load_plugin_textdomain();
-		add_action( 'init', 'check_main_heading', 0 );
 		add_action( 'init', array( &$this, 'load_localisation' ), 0 );
 
 		// Run this on activation.
@@ -942,19 +941,28 @@ class Pootlepress_Mobile_Menu_manager {
         require_once dirname(__FILE__) . '/class-mmm-image-control.php';
         require_once dirname(__FILE__) . '/class-mmm-common-control.php';
 
+        // panel
+        $customizeManager->add_panel('mmm_panel', array(
+            'title' => 'Mobile Menu',
+            'priority' => 10
+        ));
+
         // sections
         $customizeManager->add_section('mmm_mobile_nav_bar_section', array(
             'title' => 'Mobile NavBar',
+            'panel' => 'mmm_panel',
             'priority' => 10
         ));
 
         $customizeManager->add_section('mmm_mobile_menu_panel_section', array(
             'title' => 'Mobile Menu Panel',
+            'panel' => 'mmm_panel',
             'priority' => 11
         ));
 
         $customizeManager->add_section('mmm_mobile_options_section', array(
             'title' => 'Misc Mobile Options',
+            'panel' => 'mmm_panel',
             'priority' => 12
         ));
 

@@ -57,13 +57,3 @@
     padding: 10px 0;
     list-style-type: none;
 }
-
-#customize-controls .control-section > .accordion-section-title:after
-{
-    content: '\f140';
-}
-
-#customize-controls .control-section.open > .accordion-section-title:after
-{
-    content: '\f142';
-}

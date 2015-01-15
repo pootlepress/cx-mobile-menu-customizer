@@ -104,39 +104,39 @@
                 }
             }).change();
         });
-
-        var secondLayers = [];
-        $('#customize-theme-controls .accordion-section[id^=accordion-section-mmm_]').each(function () {
-//            var secondLayer = {};
-//            var secondLayerId = $(this).attr('id').replace('accordion-section-', '');
-//            var secondLayerTitle = $(this).find('> .accordion-section-title').text();
-//            var secondLayerControls = $(this).find('> .accordion-section-content > .customize-control');
 //
-//            secondLayer.id = secondLayerId;
-//            secondLayer.title = secondLayerTitle;
-//            secondLayer.controls = secondLayerControls;
-
-            secondLayers.push($(this));
-        });
-
-        var $secondLayerContainer = $('<div class="accordion-container"><div><ul></ul></div></div>')
-
-        var $firstLayerSection = $('<li id="accordion-section-mmm" class="control-section accordion-section">' +
-            '<h3 class="accordion-section-title">Mobile Menu</h3>' +
-            '<ul class="accordion-section-content"></ul>' +
-            '</li>');
-
-        for (var i in secondLayers) {
-            $secondLayerContainer.find('> div > ul').append(secondLayers[i]);
-        }
-
-        $firstLayerSection.find('> .accordion-section-content').append($secondLayerContainer);
-
-        $('#customize-theme-controls > ul').prepend($firstLayerSection);
-
-        $secondLayerContainer.find('.accordion-section').removeClass('open');
-        $secondLayerContainer.find('.accordion-section-content').hide();
-
+//        var secondLayers = [];
+//        $('#customize-theme-controls .accordion-section[id^=accordion-section-mmm_]').each(function () {
+////            var secondLayer = {};
+////            var secondLayerId = $(this).attr('id').replace('accordion-section-', '');
+////            var secondLayerTitle = $(this).find('> .accordion-section-title').text();
+////            var secondLayerControls = $(this).find('> .accordion-section-content > .customize-control');
+////
+////            secondLayer.id = secondLayerId;
+////            secondLayer.title = secondLayerTitle;
+////            secondLayer.controls = secondLayerControls;
+//
+//            secondLayers.push($(this));
+//        });
+//
+//        var $secondLayerContainer = $('<div class="accordion-container"><div><ul></ul></div></div>')
+//
+//        var $firstLayerSection = $('<li id="accordion-section-mmm" class="control-section accordion-section">' +
+//            '<h3 class="accordion-section-title">Mobile Menu</h3>' +
+//            '<ul class="accordion-section-content"></ul>' +
+//            '</li>');
+//
+//        for (var i in secondLayers) {
+//            $secondLayerContainer.find('> div > ul').append(secondLayers[i]);
+//        }
+//
+//        $firstLayerSection.find('> .accordion-section-content').append($secondLayerContainer);
+//
+//        $('#customize-theme-controls > ul').prepend($firstLayerSection);
+//
+//        $secondLayerContainer.find('.accordion-section').removeClass('open');
+//        $secondLayerContainer.find('.accordion-section-content').hide();
+//
 
         // reset
         var $resetRow = $("<div class='reset-row'></div>");
