@@ -966,6 +966,24 @@ class Pootlepress_Mobile_Menu_manager {
             'priority' => 12
         ));
 
+        $customizeManager->add_section('mmm_mobile_utilities_section', array(
+            'title' => 'Utilities',
+            'panel' => 'mmm_panel',
+            'priority' => 13
+        ));
+
+        $customizeManager->add_setting('mmm_reset', array(
+            'default' => false,
+            'type' => 'option'
+        ));
+
+        $customizeManager->add_control(new WP_Customize_Control($customizeManager, 'mmm_reset', array(
+            'settings' => 'mmm_reset',
+            'type' => 'hidden',
+            'label' => '',
+            'section' => 'mmm_mobile_utilities_section'
+        )));
+
         foreach ($this->options as $ki => $option) {
 
             if (!isset($option['type'])) {

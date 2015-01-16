@@ -144,7 +144,7 @@
 
         $resetButton.click(function () {
 
-            $secondLayerContainer.find('.customize-control').each(function () {
+            $('#accordion-panel-mmm_panel').find('.customize-control').each(function () {
 
                 if ($(this).hasClass('customize-control-checkbox')) {
                     resetCheckBoxControl($(this));
@@ -168,7 +168,7 @@
             });
 
             // trigger change for an arbitrary control, to make customizer reload preview
-            $secondLayerContainer.find('.customize-control select, .customize-control input').change();
+            $('#accordion-panel-mmm_panel').find('.customize-control select, .customize-control input').change();
         });
 
         function resetImageControl($imageControl) {
@@ -298,7 +298,7 @@
 //        }
 
         $resetRow.append($resetButton);
-        $secondLayerContainer.find('> div').append($resetRow);
+        $('#customize-control-mmm_reset').append($resetRow);
     });
 
 })( wp, jQuery );
