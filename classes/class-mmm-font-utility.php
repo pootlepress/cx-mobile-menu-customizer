@@ -109,7 +109,7 @@ if ( ! class_exists( 'MMM_Font_Utility' ) ) :
                         'Courier New'         => array( 'weights' => array( '100', '100italic', '400', '400italic', '700', '700italic' ) ),
                         'Georgia'             => array( 'weights' => array( '100', '100italic', '400', '400italic', '700', '700italic' ) ),
                         'Helvetica'           => array( 'weights' => array( '100', '100italic', '400', '400italic', '700', '700italic' ) ),
-    //                        'Helvetica Neue'      => array( 'weights' => array( '500', '500italic' ) ),
+						'Helvetica Neue'      => array( 'weights' => array( '100', '100italic', '400', '400italic', '700', '700italic' ) ),
                         'Impact'              => array( 'weights' => array( '100', '100italic', '400', '400italic', '700', '700italic' ) ),
                         'Lucida Console'      => array( 'weights' => array( '100', '100italic', '400', '400italic', '700', '700italic' ) ),
                         'Lucida Sans Unicode' => array( 'weights' => array( '100', '100italic', '400', '400italic', '700', '700italic' ) ),

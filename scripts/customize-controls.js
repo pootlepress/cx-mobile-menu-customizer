@@ -172,7 +172,7 @@
         });
 
         function resetImageControl($imageControl) {
-            $imageControl.find('.remove').click();
+            $imageControl.find('.remove-button').click();
         }
 
         function resetTextControl($textControl) {
@@ -204,26 +204,30 @@
         function resetFontControl($fontControl) {
             $fontControl.find('.sc-font-family-list').val();
 
-            var defaultFamily = $fontControl.find('.sc-font-family-list').attr('data-default-value');
-            defaultFamily = defaultFamily.split(', ')[0].replace('*', '').trim();
-            $fontControl.find('.sc-font-family-list option').each(function () {
-                var optionFamily = $(this).attr('value');
-                var optionFamilyArr = optionFamily.split(', ');
 
-                for (var i in optionFamilyArr) {
-                    var opt = optionFamilyArr[i];
-                    var f = opt.replace('"', '');
-
-//                    if (f == 'sans-serif' || f == 'serif') {
-//                        continue;
+//            var defaultFamily = $fontControl.find('.sc-font-family-list').attr('data-default-value');
+//            defaultFamily = defaultFamily.split(', ')[0].replace('*', '').trim();
+//            $fontControl.find('.sc-font-family-list option').each(function () {
+//                var optionFamily = $(this).attr('value');
+//                var optionFamilyArr = optionFamily.split(', ');
+//
+//                for (var i in optionFamilyArr) {
+//                    var opt = optionFamilyArr[i];
+//                    var f = opt.replace('"', '');
+//
+////                    if (f == 'sans-serif' || f == 'serif') {
+////                        continue;
+////                    }
+//
+//                    if (f == defaultFamily) {
+//                        $fontControl.find('.sc-font-family-list').val(optionFamily);
+//                        break;
 //                    }
+//                }
+//            });
 
-                    if (f == defaultFamily) {
-                        $fontControl.find('.sc-font-family-list').val(optionFamily);
-                        break;
-                    }
-                }
-            });
+            // just set it to empty value, server will convert empty value to default value
+            $fontControl.find('.sc-font-family-list').val('');
 
             $fontControl.find('.sc-font-weight-style-list').val($fontControl.find('.sc-font-weight-style-list').attr('data-default-value')); // default font weight and style
 

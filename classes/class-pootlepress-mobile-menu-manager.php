@@ -141,6 +141,11 @@ class Pootlepress_Mobile_Menu_manager {
 
     private function get_font_option($optionName, $defaults) {
         $fontFamily = get_option($optionName . '_id', $defaults['face']);
+
+        if ($fontFamily == '') {
+            $fontFamily = $defaults['face'];
+        }
+
         $fontSize = get_option($optionName . '_size', $defaults['size']);
         $fontSizeUnit = get_option($optionName . '_size_unit', $defaults['unit']);
         $fontColor = get_option($optionName . '_color', $defaults['color']);
@@ -525,7 +530,7 @@ class Pootlepress_Mobile_Menu_manager {
         } else if ($style == '700') {
             return 'bold';
         } else if ($style == '700italic') {
-            return 'bolditalic';
+            return 'bold italic';
         } else {
             return '';
         }
@@ -1648,17 +1653,17 @@ PANELTRANSFORM;
     private function generate_font_css( $option, $em = '1' ) {
 
         // Test if font-face is a Google font
-        global $google_fonts;
-
-        if (isset($google_fonts) && is_array($google_fonts) && count($google_fonts) > 0) {
-            foreach ($google_fonts as $google_font) {
-
-                // Add single quotation marks to font name and default arial sans-serif ending
-                if ($option['face'] == $google_font['name'])
-                    $option['face'] = "'" . $option['face'] . "', arial, sans-serif";
-
-            } // END foreach
-        }
+//        global $google_fonts;
+//
+//        if (isset($google_fonts) && is_array($google_fonts) && count($google_fonts) > 0) {
+//            foreach ($google_fonts as $google_font) {
+//
+//                // Add single quotation marks to font name and default arial sans-serif ending
+//                if ($option['face'] == $google_font['name'])
+//                    $option['face'] = "'" . $option['face'] . "', arial, sans-serif";
+//
+//            } // END foreach
+//        }
 
         if ( !@$option['style'] && !@$option['size'] && !@$option['unit'] && !@$option['color'] )
             return 'font-family: '.stripslashes($option["face"]).' !important;';
