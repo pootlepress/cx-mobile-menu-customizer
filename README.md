@@ -3,12 +3,17 @@ Canvas Extensions - Mobile Menu Customizer
 
 Watch the demo here: http://www.pootlepress.com/shop/mobile-menu-manager-woothemes-canvas/
 
-Instructions
-
-1. Install zip file as a plugin (not a theme)
-2. Mobile Menu Manager will be turned on automatically and will appear under the Canvas Extensions Heading in the Canvas Theme Options as three sub-headings - 'Mobile Navbar' 'Mobile Menu Panel' 'Mobile Options'
+Get help and documentation here: http://www.pootlepress.com/canvas-extensions/help/mobile-menu-customizer/
 
 Versions
+
+21.01.2015 – Version 2.0
+
+ * New - options moved into WP Customizer
+ * New - add new mobile menu option in WordPress menu area
+ * New - add image to NavBar option
+ * New - add image to mobile menu panel
+ * New - add phone number and options for mobile menu panel
 
 v1.1 - ability to update within WordPress
 
