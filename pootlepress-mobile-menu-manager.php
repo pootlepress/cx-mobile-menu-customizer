@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Canvas Extension - Mobile Menu Manager
+Plugin Name: Canvas Extension - Mobile Menu Customizer
 Plugin URI: http://pootlepress.com/
 Description: An extension for WooThemes Canvas that allow you to customize mobile menu.
 Version: 2.0
