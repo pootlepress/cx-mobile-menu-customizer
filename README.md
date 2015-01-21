@@ -1,5 +1,5 @@
-Canvas Extensions - Mobile Menu Manager
-=======================================
+Canvas Extensions - Mobile Menu Customizer
+==========================================
 
 Watch the demo here: http://www.pootlepress.com/shop/mobile-menu-manager-woothemes-canvas/
 
