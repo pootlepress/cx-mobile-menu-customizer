@@ -1622,6 +1622,10 @@ PANELTRANSFORM;
             $css .= "#top, #top .top-menu, #top #top-nav { display: block !important; }\n";
         }
 
+        // fix menu duplicating in mobile view, when Logo Inside Nav is activated
+        $css .= "#navigation > .menus > .topnav_section { display: none; }\n";
+        $css .= "#navigation > .menus > h3 { display: none; }\n";
+
         $css .= "}\n"; // close media query
 
         // hide mobile menu, panel logo and phone number in desktop view
