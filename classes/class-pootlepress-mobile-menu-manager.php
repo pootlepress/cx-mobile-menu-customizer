@@ -1064,6 +1064,11 @@ class Pootlepress_Mobile_Menu_manager {
 
                 $customizeManager->add_control(new MMM_Common_Control($customizeManager, $option['id'], $option));
             } else if ($option['type'] == 'checkbox' || $option['type'] == 'text') {
+				
+				//Fixing not saving 'Enable slider in mobile view' and Enable side bar in mobile view
+				if($option['default']==1 && $option['type']=="checkbox"){
+					$this->fix_true_chkbxs($option['id']);
+				}
 
                 $customizeManager->add_setting($option['id'], array(
                     'default' => $option['default'],
@@ -1731,7 +1736,18 @@ PANELTRANSFORM;
 			update_option( $this->token . '-version', $this->version );
 		}
 	} // End register_plugin_version()
+	
+	/**
+	 * 
+	 * @param type $option_ID
+	 * @return null
+	 */
+	private function fix_true_chkbxs($option_ID=null){
+		if(!$option_ID){return;}
+		$value = get_option($option_ID, 'Not in DB');
+		if($value == 'Not in DB'){
+			add_option($option_ID, 1);
+		}
+	}
 
 } // End Class
-
-
