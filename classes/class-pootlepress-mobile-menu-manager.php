@@ -1455,12 +1455,6 @@ PANELTRANSFORM;
             $css .= "}\n";
         }
 
-        // home icon styling
-        // remove default home icon styling
-        $css .= "#navigation .nav-home:before {\n";
-        $css .= "\t" . 'content: ""; display: none;' . "\n";
-        $css .= "}\n";
-
         // home icon css
 
         $homeCss = '';
@@ -1489,12 +1483,6 @@ PANELTRANSFORM;
 
         $css .= "#navigation .nav-home i{\n";
         $css .= "\t" . $homeIconCss . "\n";
-        $css .= "}\n";
-
-        // close icon styling
-        // remove default close icon styling
-        $css .= "#navigation .nav-close:before {\n";
-        $css .= "\t" . 'content: ""; display: none;' . "\n";
         $css .= "}\n";
 
         // close icon css
@@ -1531,10 +1519,6 @@ PANELTRANSFORM;
         $css .= "#navigation .cart > li > ul { display: none; }\n";
 
         $css .= "#navigation .cart .cart-contents .text { display: none; } \n";
-
-        $css .= "#navigation .cart .cart-contents:before {\n";
-        $css .= "\t" . "content: '' !important;\n";
-        $css .= "}\n";
 
         $css .= "#navigation .cart .cart-contents {\n";
         $css .= "\t" . $homeCss . "\n";
