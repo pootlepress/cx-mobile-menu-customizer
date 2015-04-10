@@ -932,7 +932,7 @@ class Pootlepress_Mobile_Menu_manager {
             'name' => 'Hide top nav',
             'desc' => 'Hide top nav',
             'type' => 'checkbox',
-            'std' => 'false'
+            'std' => 'true'
         );
         return $o;
     } // End add_theme_options()
