@@ -244,7 +244,7 @@ class Pootlepress_Mobile_Menu_manager {
         $this->optionSidebarEnable = $this->get_checkbox_option('pootlepress-mmm-option-side-bar-enable', 'true');
         $this->optionSliderEnable = $this->get_checkbox_option('pootlepress-mmm-option-slider-enable', 'true');
         $this->optionSearchBoxRemove = $this->get_checkbox_option('pootlepress-mmm-option-search-box-remove', 'false');
-        $this->optionHideTopNav = $this->get_checkbox_option('pootlepress-mmm-option-hide-top-nav', 'false');
+        $this->optionHideTopNav = $this->get_checkbox_option('pootlepress-mmm-option-hide-top-nav', 'true');
 
     }
 
