@@ -1473,6 +1473,14 @@ PANELTRANSFORM;
         $css .= "\t" . $homeCss . "\n";
         $css .= "}\n";
 
+        $css .= '#navigation .nav-home:before, ';
+        $css .= '#navigation .nav-toggle:before, ';
+        $css .= '#navigation .nav-close:before, ';
+        $css .= '#navigation .cart-contents:before ';
+        $css .= "{\n";
+        $css .= "\t content:''; \n";
+        $css .= "}\n";
+
         $css .= "#navigation .nav-home:hover {\n";
         $css .= "\t" . 'text-decoration: none;' . "\n";
         $css .= "}\n";
@@ -1484,20 +1492,6 @@ PANELTRANSFORM;
         $css .= "#navigation .nav-home i{\n";
         $css .= "\t" . $homeIconCss . "\n";
         $css .= "}\n";
-
-        // close icon css
-
-//        $closeCss = '';
-//        $closeCss .= 'color: ' . $this->panelCloseIconColor . '; ';
-//        $closeCss .= 'background-color: ' . $this->panelCloseIconBgColor . '; ';
-//        $closeCss .= 'border-radius: ' . $this->panelCloseIconBorderRadius . ' !important; ';
-//        $closeCss .= 'width: ' . $this->panelCloseIconSize . '; ';
-//        $closeCss .= 'height: ' . $this->panelCloseIconSize . '; ';
-//
-//        $closeIconCss = '';
-//        $closeIconCss .= 'display: block; ';
-//        $closeIconCss .= 'text-align: center; text-indent: 0; text-decoration: none; ';
-//        $closeIconCss .= 'font-size: ' . $this->panelCloseIconSize . '; ';
 
         $css .= "#navigation .nav-close{\n";
         $css .= "\t" . $homeCss . "\n";
