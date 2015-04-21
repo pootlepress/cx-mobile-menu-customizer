@@ -227,7 +227,7 @@ if ( ! function_exists( 'woo_nav_subscribe' ) ) {
                     <li class="sub-email"><a href="<?php echo esc_url( $woo_options['woo_subscribe_email'] ); ?>"><i class="<?php echo $iconClasses ?>"></i></a></li>
                 <?php } ?>
                 <?php if ( isset( $woo_options['woo_nav_rss'] ) && ( $woo_options['woo_nav_rss'] == 'true' ) ) { ?>
-                    <li class="sub-rss"><a href="<?php if ( $woo_options['woo_feed_url'] ) { echo esc_url( $woo_options['woo_feed_url'] ); } else { echo esc_url( get_bloginfo_rss( 'rss2_url' ) ); } ?>"><i class="<?php echo $iconClasses ?>"></i></a></li>
+                    <li class="sub-rss"><a href="<?php if ( ! empty( $woo_options['woo_feed_url'] ) ) { echo esc_url( $woo_options['woo_feed_url'] ); } else { echo esc_url( get_bloginfo_rss( 'rss2_url' ) ); } ?>"><i class="<?php echo $iconClasses ?>"></i></a></li>
                 <?php } ?>
             </ul>
         <?php }
