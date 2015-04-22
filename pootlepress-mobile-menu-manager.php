@@ -31,4 +31,3 @@ function pp_mmm_updater()
     $wptuts_plugin_slug = plugin_basename(__FILE__);
     new Pootlepress_Updater ($wptuts_plugin_current_version, $wptuts_plugin_remote_path, $wptuts_plugin_slug);
 }
-?>
