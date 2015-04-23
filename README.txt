@@ -6,6 +6,17 @@ Watch the demo here: http://www.pootlepress.com/shop/mobile-menu-manager-woothem
 Get help and documentation here: http://www.pootlepress.com/canvas-extensions/help/mobile-menu-customizer/
 
 Versions
+23.04.2015 – Version 2.1
+
+ * Fix - menu duplicating in mobile view when Logo Inside Nav is activated
+ * Fix - enable/disable slider in mobile view
+ * Fix - fixed compatiblity with Stickey Header
+ * Fix - issues with Font Awesome Icons duplication
+ * Fix - RSS link inconsistency resolved
+ * Fix - email icon correction
+ * New - general efficiency improvements
+ 
+
 
 21.01.2015 – Version 2.0
 
