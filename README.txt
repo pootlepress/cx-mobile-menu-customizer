@@ -7,7 +7,7 @@ Get help and documentation here: http://www.pootlepress.com/canvas-extensions/he
 
 Versions
 
-23.04.2015 – Version 2.0.1
+23.04.2015 – Version 2.1
 
  * Fix - menu duplicating in mobile view when Logo Inside Nav is activated
  * Fix - enable/disable slider in mobile view
