@@ -3,7 +3,7 @@
 Plugin Name: Canvas Extension - Mobile Menu Customizer
 Plugin URI: http://pootlepress.com/
 Description: An extension for WooThemes Canvas that allow you to customize mobile menu.
-Version: 2.0
+Version: 2.1
 Author: PootlePress
 Author URI: http://pootlepress.com/
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -17,7 +17,7 @@ require_once( 'classes/class-pootlepress-mobile-menu-manager.php' );
 require_once( 'classes/class-pootlepress-updater.php');
 
 $GLOBALS['pootlepress_mobile_menu_manager'] = new Pootlepress_Mobile_Menu_manager( __FILE__ );
-$GLOBALS['pootlepress_mobile_menu_manager']->version = '2.0';
+$GLOBALS['pootlepress_mobile_menu_manager']->version = '2.1';
 
 add_action('init', 'pp_mmm_updater');
 function pp_mmm_updater()
