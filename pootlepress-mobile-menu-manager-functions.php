@@ -166,7 +166,9 @@ if ( ! function_exists( 'woo_add_nav_cart_link' ) ) {
         $iconClasses = 'fa ' . $shopIconClass;
 
         $settings = array('header_cart_link' => 'false', 'nav_rss' => 'false', 'header_cart_total' => 'false');
-        $settings = woo_get_dynamic_values($settings);
+        if ( function_exists( 'woo_get_dynamic_values' ) ) {
+	        $settings = woo_get_dynamic_values( $settings );
+        }
 
         $class = 'cart fr';
         if ('false' == $settings['nav_rss']) {
