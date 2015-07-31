@@ -3,7 +3,7 @@
 Plugin Name: Canvas Extension - Mobile Menu Customizer
 Plugin URI: http://pootlepress.com/
 Description: An extension for WooThemes Canvas that allow you to customize mobile menu.
-Version: 2.1
+Version: 2.1.0
 Author: PootlePress
 Author URI: http://pootlepress.com/
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -14,20 +14,27 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 require_once( 'pootlepress-mobile-menu-manager-functions.php' );
 require_once( 'classes/class-pootlepress-mobile-menu-manager.php' );
-require_once( 'classes/class-pootlepress-updater.php');
 
 $GLOBALS['pootlepress_mobile_menu_manager'] = new Pootlepress_Mobile_Menu_manager( __FILE__ );
-$GLOBALS['pootlepress_mobile_menu_manager']->version = '2.1';
+$GLOBALS['pootlepress_mobile_menu_manager']->version = '2.1.0';
 
-add_action('init', 'pp_mmm_updater');
-function pp_mmm_updater()
-{
-    if (!function_exists('get_plugin_data')) {
-        include(ABSPATH . 'wp-admin/includes/plugin.php');
-    }
-    $data = get_plugin_data(__FILE__);
-    $wptuts_plugin_current_version = $data['Version'];
-    $wptuts_plugin_remote_path = 'http://www.pootlepress.com/?updater=1';
-    $wptuts_plugin_slug = plugin_basename(__FILE__);
-    new Pootlepress_Updater ($wptuts_plugin_current_version, $wptuts_plugin_remote_path, $wptuts_plugin_slug);
-}
+//CX API
+require 'pp-cx/class-pp-cx-init.php';
+new PP_Canvas_Extensions_Init(
+	array(
+		'key'          => 'mobile-menu-customizer',
+		'label'        => 'Mobile Menu Customizer',
+		'url'          => 'http://www.pootlepress.com/shop/mobile-menu-manager-woothemes-canvas/',
+		'description'  => "Page Customizer has a huge amount of options that can be set on a per post and page level and also many site-wide options.",
+		'img'          => 'http://www.pootlepress.com/wp-content/uploads/2014/04/mobile-menu-manager-icon.png',
+		'installed'    => true,
+		'settings_url' => admin_url( 'admin.php?page=pp-extensions&cx=mobile-menu-customizer' ),
+	),
+	array(
+		//Tabs coming soon
+	),
+	'pp_cx_mobile_menu_customizer',
+	'Canvas Extension - Mobile Menu Customizer',
+	$GLOBALS['pootlepress_mobile_menu_manager']->version,
+	__FILE__
+);
