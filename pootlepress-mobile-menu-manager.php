@@ -28,13 +28,7 @@ new PP_Canvas_Extensions_Init(
 		'description'  => "Page Customizer has a huge amount of options that can be set on a per post and page level and also many site-wide options.",
 		'img'          => 'http://www.pootlepress.com/wp-content/uploads/2014/04/mobile-menu-manager-icon.png',
 		'installed'    => true,
-		'settings_url' => admin_url( 'admin.php?page=pp-extensions&cx=mobile-menu-customizer' ),
+		'settings_url' => admin_url( 'customize.php?autofocus[panel]=mmm_panel' ),
 	),
-	array(
-		//No tabs required
-	),
-	'pp_cx_mobile_menu_customizer',
-	'Canvas Extension - Mobile Menu Customizer',
-	$GLOBALS['pootlepress_mobile_menu_manager']->version,
 	__FILE__
 );
